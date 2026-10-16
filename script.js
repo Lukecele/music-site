@@ -78,12 +78,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const miniJumpToStageBtn = document.getElementById('miniJumpToStageBtn');
 
   // Sezioni & Pulsanti Header
-  const workoutToggleBtn = document.getElementById('workoutToggleBtn');
   const cremoniniToggleBtn = document.getElementById('cremoniniToggleBtn');
-  const startRockyPlaylistBtn = document.getElementById('startRockyPlaylistBtn');
-  const rockyMiniCards = document.querySelectorAll('.rocky-mini-card');
-  const rockyPlayBtns = document.querySelectorAll('.rmc-play-btn');
-  const rockyPills = document.querySelectorAll('.rocky-pill-btn');
   const cremPills = document.querySelectorAll('.crem-pill-btn');
 
   // Sleep Timer Modal
@@ -385,47 +380,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   });
 
-  // ==========================================================================
-  // SEZIONE WORKOUT ROCKY 🥊 (JUKEBOX DIRETTO)
-  // ==========================================================================
 
-  if (workoutToggleBtn) {
-    workoutToggleBtn.addEventListener('click', () => {
-      const rockySection = document.getElementById('rocky-camp');
-      if (rockySection) rockySection.scrollIntoView({ behavior: 'smooth' });
-      showToast('Entrato nel Rocky Balboa Workout Camp 🥊');
-    });
-  }
-
-  if (startRockyPlaylistBtn) {
-    startRockyPlaylistBtn.addEventListener('click', () => {
-      playTrackById('eye-of-the-tiger', { scrollToPlayer: true });
-      showToast('Avviata sessione Rocky: Eye of the Tiger! 🥊');
-    });
-  }
-
-  rockyPills.forEach((pill) => {
-    pill.addEventListener('click', () => {
-      const trackId = pill.dataset.id;
-      if (trackId) playTrackById(trackId, { scrollToPlayer: true });
-    });
-  });
-
-  rockyPlayBtns.forEach((btn) => {
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const trackId = btn.dataset.id;
-      if (trackId) playTrackById(trackId, { scrollToPlayer: true });
-    });
-  });
-
-  rockyMiniCards.forEach((card) => {
-    card.addEventListener('click', (e) => {
-      if (e.target.closest('.rmc-play-btn')) return;
-      const trackId = card.dataset.id;
-      if (trackId) playTrackById(trackId, { scrollToPlayer: true });
-    });
-  });
 
   // ==========================================================================
   // SEZIONE CESARE CREMONINI 🇮🇹
@@ -584,18 +539,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Applica filtro al grid
     applyFiltersAndSearch();
 
-    // Scroll verso la sezione rilevante solo se richiesto (default true)
+    // Scroll verso il catalogo solo se richiesto (default true)
     if (options.scroll !== false) {
-      if (cat === 'rocky') {
-        const el = document.getElementById('rocky-camp');
-        if (el) el.scrollIntoView({ behavior: 'smooth' });
-      } else if (cat === 'cremonini') {
-        const el = document.getElementById('cremonini-sanctuary');
-        if (el) el.scrollIntoView({ behavior: 'smooth' });
-      } else {
-        const el = document.getElementById('esplora');
-        if (el) el.scrollIntoView({ behavior: 'smooth' });
-      }
+      const el = document.getElementById('esplora');
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
     }
   }
 

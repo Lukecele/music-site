@@ -1,7 +1,7 @@
 {
   "name": "Sanctuary | Il Mio Rifugio Musicale",
   "short_name": "Sanctuary",
-  "description": "52 brani selezionati per l'anima, l'allenamento e l'energia vitale: player YouTube HD con sezioni per Rifugio dell'Anima, Cinema & Anime, Rocky Training Camp, Rock, Cesare Cremonini e Inni '80-'2000 (Queen, Michael Jackson, Ligabue, Tarzan).",
+  "description": "52 brani selezionati tra emozione profonda, motivazione e pura carica vitale: player YouTube HD con le 6 categorie Rifugio dell'Anima, Cinema & Anime, Rocky Training Camp, Rock, Cesare Cremonini e Inni '80-'2000.",
   "start_url": "/",
   "id": "/",
   "scope": "/",
@@ -24,7 +24,7 @@
       "name": "Rocky Training Camp 🥊",
       "short_name": "Rocky 🥊",
       "description": "Accedi subito alla colonna sonora per l'allenamento",
-      "url": "/#rocky-camp",
+      "url": "/#esplora",
       "icons": [{ "src": "/assets/icon-192.png", "sizes": "192x192" }]
     },
     {
