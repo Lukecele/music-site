@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <radialGradient id="discGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#1e1b4b"/>
+      <stop offset="60%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#030712"/>
+    </radialGradient>
+    <linearGradient id="goldVinyl" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fef08a"/>
+      <stop offset="50%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#d97706"/>
+    </linearGradient>
+    <linearGradient id="auroraGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="50%" stop-color="#a855f7"/>
+      <stop offset="100%" stop-color="#f43f5e"/>
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background Vinyl Disc -->
+  <circle cx="256" cy="256" r="240" fill="url(#discGrad)" stroke="url(#auroraGlow)" stroke-width="6"/>
+
+  <!-- Vinyl Grooves -->
+  <circle cx="256" cy="256" r="200" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1.5"/>
+  <circle cx="256" cy="256" r="165" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1.5"/>
+  <circle cx="256" cy="256" r="130" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1.5"/>
+
+  <!-- Center Label -->
+  <circle cx="256" cy="256" r="80" fill="#090d16" stroke="url(#goldVinyl)" stroke-width="4"/>
+
+  <!-- Center Spindle Hole -->
+  <circle cx="256" cy="256" r="18" fill="#f8fafc"/>
+
+  <!-- Dynamic Soundwave Equalisers (Left & Right) -->
+  <g filter="url(#glow)">
+    <!-- Equalizer Left -->
+    <rect x="80" y="240" width="8" height="32" rx="4" fill="#38bdf8"/>
+    <rect x="100" y="220" width="8" height="72" rx="4" fill="#38bdf8"/>
+    <rect x="120" y="200" width="8" height="112" rx="4" fill="#818cf8"/>
+    <rect x="140" y="230" width="8" height="52" rx="4" fill="#a855f7"/>
+
+    <!-- Equalizer Right -->
+    <rect x="364" y="230" width="8" height="52" rx="4" fill="#a855f7"/>
+    <rect x="384" y="200" width="8" height="112" rx="4" fill="#f43f5e"/>
+    <rect x="404" y="220" width="8" height="72" rx="4" fill="#f59e0b"/>
+    <rect x="424" y="240" width="8" height="32" rx="4" fill="#f59e0b"/>
+  </g>
+
+  <!-- Crown Musical Note at Top -->
+  <path d="M 245 105 L 275 105 L 275 135 A 15 15 0 1 1 250 148 L 250 115 Z" fill="url(#goldVinyl)" filter="url(#glow)"/>
+</svg>

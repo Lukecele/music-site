@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://sanctuary-music.vercel.app/sitemap.xml
