@@ -68,7 +68,7 @@
 
       <!-- Tag 2 -->
       <rect x="185" y="0" width="200" height="42" rx="21" fill="rgba(239, 68, 68, 0.15)" stroke="#ef4444"/>
-      <text x="285" y="26" font-family="system-ui, sans-serif" font-weight="700" font-size="14" fill="#ef4444" text-anchor="middle">🥊 Rocky Workout</text>
+      <text x="285" y="26" font-family="system-ui, sans-serif" font-weight="700" font-size="14" fill="#ef4444" text-anchor="middle">🥊 Rocky Balboa</text>
 
       <!-- Tag 3 -->
       <rect x="400" y="0" width="180" height="42" rx="21" fill="rgba(168, 85, 247, 0.15)" stroke="#a855f7"/>

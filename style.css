@@ -702,14 +702,29 @@ body {
 }
 
 /* Category Filter Tabs */
+/* Category Filter Tabs: Nascosto su desktop (>1100px) dove l'header sticky è sempre visibile.
+   Visibile su mobile/tablet (<=1100px) come barra chip a scorrimento rapido orizzontale. */
 .filter-bar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 0.6rem;
-  margin-bottom: 1.75rem;
-  width: 100%;
+  display: none;
+}
+
+@media (max-width: 1100px) {
+  .filter-bar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    width: 100%;
+    padding: 0.25rem 0.25rem 0.5rem;
+  }
+  .filter-bar::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .filter-tab {
@@ -725,6 +740,8 @@ body {
   background: var(--bg-card);
   color: var(--text-sub);
   transition: var(--transition-fast);
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .filter-tab i {
