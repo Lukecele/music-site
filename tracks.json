@@ -538,5 +538,49 @@
     "vibe": "Giovinezza, Estate sui Colli & Libertà",
     "lyricsQuote": "Ma quanto è bello andare in giro con le ali sotto ai piedi se hai una Vespa Special che ti toglie i problemi!",
     "accentColor": "#10b981"
+  },
+  {
+    "id": "who-wants-to-live-forever",
+    "title": "Who Wants to Live Forever",
+    "artist": "Queen",
+    "category": "anni-80-2000",
+    "youtubeId": "_Jtpf8N5IDE",
+    "year": 1986,
+    "vibe": "Epico, Immortale & Trascendente",
+    "lyricsQuote": "There's no time for us, there's no place for us... Who wants to live forever when love must die?",
+    "notes": "Colonna sonora leggendaria del film cult Highlander con l'orchestra sinfonica National Philharmonic. L'intensità vocale senza tempo di Freddie Mercury."
+  },
+  {
+    "id": "radio-ga-ga",
+    "title": "Radio Ga Ga",
+    "artist": "Queen",
+    "category": "anni-80-2000",
+    "youtubeId": "azdwsXLmrHE",
+    "year": 1984,
+    "vibe": "Inno Globale & Nostalgia Trionfale",
+    "lyricsQuote": "All we hear is Radio ga ga, Radio goo goo, Radio ga ga. Radio, someone still loves you!",
+    "notes": "Inno synth-rock immortale che ha fatto tremare lo stadio di Wembley al Live Aid 1985 con il battito di mani sincronizzato di 72.000 persone."
+  },
+  {
+    "id": "heal-the-world",
+    "title": "Heal the World",
+    "artist": "Michael Jackson",
+    "category": "anni-80-2000",
+    "youtubeId": "BWf-eARnf6U",
+    "year": 1991,
+    "vibe": "Pace, Umanità & Speranza Pura",
+    "lyricsQuote": "Heal the world, make it a better place, for you and for me and the entire human race.",
+    "notes": "La canzone che Michael Jackson stesso definiva come la più importante e fiera della sua carriera, creata per toccare le corde più profonde della compassione umana."
+  },
+  {
+    "id": "we-are-the-world",
+    "title": "We Are the World",
+    "artist": "USA for Africa (Michael Jackson, Lionel Richie...)",
+    "category": "anni-80-2000",
+    "youtubeId": "s3wNuru4U0I",
+    "year": 1985,
+    "vibe": "Il Più Grande Inno di Solidarietà della Storia",
+    "lyricsQuote": "We are the world, we are the children, we are the ones who make a brighter day, so let's start giving.",
+    "notes": "45 tra le più grandi leggende musicali riunite in una notte memorabile ai Columbia Studios. Scritta da Michael Jackson e Lionel Richie, prodotta da Quincy Jones."
   }
 ]
