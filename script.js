@@ -1,40 +1,36 @@
-// ==========================================================================
-// SANCTUARY | Il Mio Rifugio Musicale – Logica Interattiva
-// Player YouTube, Ricerca Live, Workout Timer, Sleep Timer & Filtri Mood
-// ==========================================================================
+/**
+ * SANCTUARY | Il Mio Rifugio Musicale – Logic & Playback Controller
+ * In-browser YouTube Embed controller, filters, search, mini-player, sleep timer.
+ */
 
 document.addEventListener('DOMContentLoaded', async () => {
-  // Inizializza icone Lucide
+  // Lucide Icons Init
   if (window.lucide) {
     lucide.createIcons();
   }
 
-  // Registrazione Service Worker PWA
+  // Registrazione Service Worker per PWA
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/sw.js').catch((err) => {
-        console.warn('Service Worker registration skipped:', err);
+      navigator.serviceWorker.register('/sw.js?v=2.1').catch(() => {
+        // SW opzionale in ambienti locali
       });
     });
   }
 
-  // Database Brani
+  // Caricamento Dati Tracce
   let tracks = [];
   try {
-    const res = await fetch('/tracks.json?v=1.0.0');
+    const res = await fetch('tracks.json');
     tracks = await res.json();
   } catch (err) {
     console.error('Errore nel caricamento di tracks.json:', err);
+    return;
   }
 
-  // Stato Globale dell'App
+  // Stato Globale
   let currentTrackIndex = 0;
   let activeFilter = 'all';
-  let workoutTimerInterval = null;
-  let workoutSecondsLeft = 180; // 3 minuti di default
-  let workoutIsRest = false;
-  let workoutIsRunning = false;
-  let sleepTimerTimeout = null;
   let sleepTimerInterval = null;
   let sleepSecondsLeft = 0;
 
@@ -54,6 +50,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   const mulanChorusHeroBtn = document.getElementById('mulanChorusHeroBtn');
   const herculesLangHeroBtn = document.getElementById('herculesLangHeroBtn');
   const herculesLangHeroText = document.getElementById('herculesLangHeroText');
+  const dragonBallHeroBtn = document.getElementById('dragonBallHeroBtn');
+  const dragonBallHeroText = document.getElementById('dragonBallHeroText');
 
   // Controlli Master Playback
   const prevTrackBtn = document.getElementById('prevTrackBtn');
@@ -79,18 +77,13 @@ document.addEventListener('DOMContentLoaded', async () => {
   const miniNextBtn = document.getElementById('miniNextBtn');
   const miniJumpToStageBtn = document.getElementById('miniJumpToStageBtn');
 
-  // Workout Rocky Controls
+  // Sezioni & Pulsanti Header
   const workoutToggleBtn = document.getElementById('workoutToggleBtn');
-  const startRockyPlaylistBtn = document.getElementById('startRockyPlaylistBtn');
-  const timerDigits = document.getElementById('timerDigits');
-  const timerPhaseLabel = document.getElementById('timerPhaseLabel');
-  const timerToggleBtn = document.getElementById('timerToggleBtn');
-  const timerToggleText = document.getElementById('timerToggleText');
-  const timerResetBtn = document.getElementById('timerResetBtn');
-  const rockyPills = document.querySelectorAll('.rocky-pill-btn');
-
-  // Cremonini Controls
   const cremoniniToggleBtn = document.getElementById('cremoniniToggleBtn');
+  const startRockyPlaylistBtn = document.getElementById('startRockyPlaylistBtn');
+  const rockyMiniCards = document.querySelectorAll('.rocky-mini-card');
+  const rockyPlayBtns = document.querySelectorAll('.rmc-play-btn');
+  const rockyPills = document.querySelectorAll('.rocky-pill-btn');
   const cremPills = document.querySelectorAll('.crem-pill-btn');
 
   // Sleep Timer Modal
@@ -113,307 +106,388 @@ document.addEventListener('DOMContentLoaded', async () => {
   // ==========================================================================
 
   function playTrackByIndex(index, options = {}) {
-    if (!tracks.length || index < 0 || index >= tracks.length) return;
+    if (index < 0) index = tracks.length - 1;
+    if (index >= tracks.length) index = 0;
+
     currentTrackIndex = index;
     const track = tracks[currentTrackIndex];
 
-    let embedUrl = `https://www.youtube-nocookie.com/embed/${track.youtubeId}?autoplay=1&enablejsapi=1&rel=0`;
-
-    // Se richiesto uno specifico timestamp di avvio (es. ritornello Mulan)
-    if (options.startTime) {
-      embedUrl += `&start=${options.startTime}`;
+    // URL YouTube con autoplay (se richiesto)
+    let embedUrl = `https://www.youtube-nocookie.com/embed/${track.youtubeId}?enablejsapi=1&rel=0`;
+    if (options.autoplay) {
+      embedUrl += '&autoplay=1';
+    }
+    if (options.startSeconds) {
+      embedUrl += `&start=${options.startSeconds}`;
     }
 
-    // Aggiorna iframe
     mainVideoFrame.src = embedUrl;
 
-    // Aggiorna UI dello Stage Player
+    // Aggiornamento Dati Palcoscenico
     stageSongTitle.textContent = track.title;
     stageSongArtist.textContent = track.artist;
     stageSongQuote.textContent = `«${track.lyricsQuote}»`;
+    stageCatBadge.textContent = track.categoryLabel;
     stageYearBadge.textContent = track.year;
     stageVibeBadge.textContent = track.vibe;
-    stageCatBadge.textContent = track.categoryLabel;
+    nowPlayingStatus.textContent = `In riproduzione: ${track.title} – ${track.artist} (${track.year})`;
 
-    // Stile badge categoria
-    stageCatBadge.className = 'badge-cat cat-' + track.category;
-    nowPlayingStatus.textContent = `In riproduzione: ${track.title} – ${track.artist}`;
-    openYtStageLink.href = `https://www.youtube.com/watch?v=${track.youtubeId}`;
-
-    // Aggiorna Mini Player
-    miniTrackTitle.textContent = track.title;
-    miniTrackArtist.textContent = track.artist;
-    miniThumbImg.src = `https://img.youtube.com/vi/${track.youtubeId}/default.jpg`;
-    miniThumbImg.alt = `${track.title} – ${track.artist}`;
-
-    // Evidenzia card attiva nella griglia
-    trackCards.forEach((c) => c.classList.remove('active-playing'));
-    const activeCard = document.getElementById(`card-${track.id}`);
-    if (activeCard) {
-      activeCard.classList.add('active-playing');
+    if (openYtStageLink) {
+      openYtStageLink.href = `https://www.youtube.com/watch?v=${track.youtubeId}`;
     }
 
-    // Gestione Pulsanti Speciali (Mulan & Hercules)
-    if (track.id === 'faro-di-te-un-uomo') {
-      mulanChorusHeroBtn.classList.remove('hidden');
-    } else {
-      mulanChorusHeroBtn.classList.add('hidden');
-    }
+    // Mini Player
+    if (miniThumbImg) miniThumbImg.src = `https://img.youtube.com/vi/${track.youtubeId}/default.jpg`;
+    if (miniTrackTitle) miniTrackTitle.textContent = track.title;
+    if (miniTrackArtist) miniTrackArtist.textContent = track.artist;
 
-    if (track.hasLanguageToggle) {
-      herculesLangHeroBtn.classList.remove('hidden');
-      herculesLangHeroText.textContent =
-        track.id === 'posso-farcela'
-          ? 'Ascolta Versione Originale Inglese (Roger Bart)'
-          : 'Ascolta Versione Storica Italiana (Alex Baroni)';
-    } else {
-      herculesLangHeroBtn.classList.add('hidden');
-    }
-
-    // Effetto glow tematico sullo Stage
-    updateStageAmbiance(track.category);
-
-    if (options.scrollToPlayer && window.innerWidth <= 768) {
-      stageCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-  }
-
-  function playTrackById(trackId, options = {}) {
-    const idx = tracks.findIndex((t) => t.id === trackId);
-    if (idx !== -1) {
-      playTrackByIndex(idx, options);
-    }
-  }
-
-  function updateStageAmbiance(category) {
-    let glowColor = 'rgba(56, 189, 248, 0.2)';
-    let borderColor = 'rgba(56, 189, 248, 0.35)';
-
-    if (category === 'rocky') {
-      glowColor = 'rgba(239, 68, 68, 0.3)';
-      borderColor = 'rgba(239, 68, 68, 0.5)';
-    } else if (category === 'rock') {
-      glowColor = 'rgba(168, 85, 247, 0.25)';
-      borderColor = 'rgba(168, 85, 247, 0.4)';
-    } else if (category === 'cremonini') {
-      glowColor = 'rgba(249, 115, 22, 0.25)';
-      borderColor = 'rgba(249, 115, 22, 0.45)';
-    } else if (category === 'epica') {
-      glowColor = 'rgba(251, 191, 36, 0.25)';
-      borderColor = 'rgba(251, 191, 36, 0.45)';
-    }
-
-    stageCard.style.boxShadow = `0 4px 20px rgba(0, 0, 0, 0.4), 0 0 35px ${glowColor}`;
-    stageCard.style.borderColor = borderColor;
-  }
-
-  // ==========================================================================
-  // PULSANTI DI CONTROLLO & EVENTI PLAYBACK
-  // ==========================================================================
-
-  prevTrackBtn.addEventListener('click', () => {
-    let nextIdx = currentTrackIndex - 1;
-    if (nextIdx < 0) nextIdx = tracks.length - 1;
-    playTrackByIndex(nextIdx, { scrollToPlayer: true });
-  });
-
-  nextTrackBtn.addEventListener('click', () => {
-    let nextIdx = (currentTrackIndex + 1) % tracks.length;
-    playTrackByIndex(nextIdx, { scrollToPlayer: true });
-  });
-
-  randomTrackBtn.addEventListener('click', () => {
-    if (!tracks.length) return;
-    let randIdx = Math.floor(Math.random() * tracks.length);
-    if (randIdx === currentTrackIndex && tracks.length > 1) {
-      randIdx = (randIdx + 1) % tracks.length;
-    }
-    playTrackByIndex(randIdx, { scrollToPlayer: true });
-    showToast(`In riproduzione brano casuale: ${tracks[randIdx].title}`);
-  });
-
-  // Salta al ritornello di Mulan
-  mulanChorusHeroBtn.addEventListener('click', () => {
-    playTrackById('faro-di-te-un-uomo', { startTime: 88 });
-    showToast('⚡ Saltato al ritornello cult: «Uomini, uniti e fieri...»');
-  });
-
-  // Switch lingua Hercules
-  herculesLangHeroBtn.addEventListener('click', () => {
-    const cur = tracks[currentTrackIndex];
-    if (cur.id === 'posso-farcela') {
-      playTrackById('go-the-distance-eng');
-      showToast('Passato a Hercules (Versione Originale Inglese)');
-    } else {
-      playTrackById('posso-farcela');
-      showToast('Passato a Hercules (Versione Italiana di Alex Baroni)');
-    }
-  });
-
-  // Click su play all'interno delle card
-  document.addEventListener('click', (e) => {
-    // Play button su card
-    const playBtn = e.target.closest('.btn-play-track, .play-overlay-btn');
-    if (playBtn) {
-      const trackId = playBtn.dataset.id;
-      playTrackById(trackId, { scrollToPlayer: true });
-      return;
-    }
-
-    // Ritornello button su card Mulan
-    const chorusBtn = e.target.closest('.btn-chorus');
-    if (chorusBtn) {
-      const trackId = chorusBtn.dataset.id;
-      const seek = parseInt(chorusBtn.dataset.seek || '88', 10);
-      playTrackById(trackId, { startTime: seek, scrollToPlayer: true });
-      showToast('⚡ Riproduzione dal ritornello cult!');
-      return;
-    }
-
-    // Toggle lingua su card Hercules
-    const langBtn = e.target.closest('.btn-lang-toggle');
-    if (langBtn) {
-      const trackId = langBtn.dataset.id;
-      const nextId = trackId === 'posso-farcela' ? 'go-the-distance-eng' : 'posso-farcela';
-      playTrackById(nextId, { scrollToPlayer: true });
-      return;
-    }
-
-    // Copia citazione
-    const copyBtn = e.target.closest('.btn-copy-lyric');
-    if (copyBtn) {
-      const quote = copyBtn.dataset.quote;
-      const song = copyBtn.dataset.song;
-      copyToClipboard(`«${quote}» – ${song}`);
-      showToast('Citazione musicale copiata negli appunti!');
-      return;
-    }
-  });
-
-  copyStageQuoteBtn.addEventListener('click', () => {
-    const cur = tracks[currentTrackIndex];
-    if (cur) {
-      copyToClipboard(`«${cur.lyricsQuote}» – ${cur.title} (${cur.artist})`);
-      showToast('Verso copiato negli appunti!');
-    }
-  });
-
-  // Mini Player Controls
-  miniPrevBtn.addEventListener('click', () => prevTrackBtn.click());
-  miniNextBtn.addEventListener('click', () => nextTrackBtn.click());
-  miniJumpToStageBtn.addEventListener('click', () => {
-    stageCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  });
-
-  // Sticky Player apparizione allo scroll
-  window.addEventListener('scroll', () => {
-    const stageBottom = stageCard.getBoundingClientRect().bottom;
-    if (stageBottom < 0) {
-      stickyMiniPlayer.classList.remove('hidden');
-    } else {
-      stickyMiniPlayer.classList.add('hidden');
-    }
-  });
-
-  // ==========================================================================
-  // FILTRI MOOD & RICERCA IN TEMPO REALE
-  // ==========================================================================
-
-  function applyFilters() {
-    const query = trackSearchInput.value.trim().toLowerCase();
-    let visibleCount = 0;
-
+    // Evidenziazione card attiva
     trackCards.forEach((card) => {
-      const cat = card.dataset.category;
-      const title = card.dataset.title;
-      const artist = card.dataset.artist;
-      const lyrics = card.dataset.lyrics;
-
-      const matchesCat = activeFilter === 'all' || cat === activeFilter;
-      const matchesQuery =
-        !query ||
-        title.includes(query) ||
-        artist.includes(query) ||
-        lyrics.includes(query);
-
-      if (matchesCat && matchesQuery) {
-        card.style.display = 'flex';
-        visibleCount++;
+      if (card.dataset.id === track.id) {
+        card.classList.add('active-playing');
       } else {
-        card.style.display = 'none';
+        card.classList.remove('active-playing');
       }
     });
 
-    searchCountFeedback.innerHTML = `Mostrando <strong>${visibleCount}</strong> brani su ${tracks.length}`;
+    // Gestione Pulsanti Speciali (Mulan, Hercules, Dragon Ball GT)
+    updateSpecialFeatureButtons(track);
 
-    if (visibleCount === 0) {
-      emptySearchState.classList.remove('hidden');
-    } else {
-      emptySearchState.classList.add('hidden');
+    // Scroll verso il palcoscenico se richiesto
+    if (options.scrollToPlayer) {
+      stageCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    if (options.notifyToast) {
+      showToast(`In riproduzione: ${track.title}`);
+    }
+
+    if (window.lucide) lucide.createIcons();
+  }
+
+  function playTrackById(trackId, options = {}) {
+    const idx = tracks.findIndex(t => t.id === trackId);
+    if (idx !== -1) {
+      playTrackByIndex(idx, { autoplay: true, ...options });
+    }
+  }
+
+  function updateSpecialFeatureButtons(track) {
+    // Mulan Jump Chorus
+    if (mulanChorusHeroBtn) {
+      if (track.id === 'faro-di-te-un-uomo') {
+        mulanChorusHeroBtn.classList.remove('hidden');
+      } else {
+        mulanChorusHeroBtn.classList.add('hidden');
+      }
+    }
+
+    // Hercules Toggle ITA / ENG
+    if (herculesLangHeroBtn && herculesLangHeroText) {
+      if (track.id === 'posso-farcela') {
+        herculesLangHeroBtn.classList.remove('hidden');
+        herculesLangHeroText.textContent = 'Ascolta la versione originale in Inglese (Roger Bart)';
+      } else if (track.id === 'go-the-distance-eng') {
+        herculesLangHeroBtn.classList.remove('hidden');
+        herculesLangHeroText.textContent = 'Ascolta la versione Italiana Disney (Alex Baroni)';
+      } else {
+        herculesLangHeroBtn.classList.add('hidden');
+      }
+    }
+
+    // Dragon Ball GT Toggle ITA / JAP
+    if (dragonBallHeroBtn && dragonBallHeroText) {
+      if (track.id === 'dragon-ball-gt-ita') {
+        dragonBallHeroBtn.classList.remove('hidden');
+        dragonBallHeroText.textContent = 'Ascolta la Sigla Giapponese Originale (DAN DAN)';
+      } else if (track.id === 'dragon-ball-gt-dan-dan') {
+        dragonBallHeroBtn.classList.remove('hidden');
+        dragonBallHeroText.textContent = 'Ascolta la Sigla Italiana Ufficiale (Giorgio Vanni)';
+      } else {
+        dragonBallHeroBtn.classList.add('hidden');
+      }
+    }
+  }
+
+  // ==========================================================================
+  // EVENT LISTENERS CONTROLLI PRINCIPALI
+  // ==========================================================================
+
+  if (prevTrackBtn) {
+    prevTrackBtn.addEventListener('click', () => {
+      playTrackByIndex(currentTrackIndex - 1, { autoplay: true, notifyToast: true });
+    });
+  }
+
+  if (nextTrackBtn) {
+    nextTrackBtn.addEventListener('click', () => {
+      playTrackByIndex(currentTrackIndex + 1, { autoplay: true, notifyToast: true });
+    });
+  }
+
+  if (randomTrackBtn) {
+    randomTrackBtn.addEventListener('click', () => {
+      let randIdx = Math.floor(Math.random() * tracks.length);
+      if (randIdx === currentTrackIndex) {
+        randIdx = (randIdx + 1) % tracks.length;
+      }
+      playTrackByIndex(randIdx, { autoplay: true, scrollToPlayer: true, notifyToast: true });
+    });
+  }
+
+  if (copyStageQuoteBtn) {
+    copyStageQuoteBtn.addEventListener('click', () => {
+      const curTrack = tracks[currentTrackIndex];
+      const textToCopy = `«${curTrack.lyricsQuote}» — ${curTrack.title} (${curTrack.artist})`;
+      navigator.clipboard.writeText(textToCopy).then(() => {
+        showToast('Verso musicale copiato negli appunti! ✨');
+      }).catch(() => {
+        showToast('Copia completata');
+      });
+    });
+  }
+
+  // Azioni speciali Hero
+  if (mulanChorusHeroBtn) {
+    mulanChorusHeroBtn.addEventListener('click', () => {
+      playTrackByIndex(currentTrackIndex, { autoplay: true, startSeconds: 100 });
+      showToast('⚡ Saltato al ritornello: «Uomini, uniti e fieri...»!');
+    });
+  }
+
+  if (herculesLangHeroBtn) {
+    herculesLangHeroBtn.addEventListener('click', () => {
+      const cur = tracks[currentTrackIndex];
+      if (cur.id === 'posso-farcela') {
+        playTrackById('go-the-distance-eng', { scrollToPlayer: true });
+      } else {
+        playTrackById('posso-farcela', { scrollToPlayer: true });
+      }
+    });
+  }
+
+  if (dragonBallHeroBtn) {
+    dragonBallHeroBtn.addEventListener('click', () => {
+      const cur = tracks[currentTrackIndex];
+      if (cur.id === 'dragon-ball-gt-ita') {
+        playTrackById('dragon-ball-gt-dan-dan', { scrollToPlayer: true });
+      } else {
+        playTrackById('dragon-ball-gt-ita', { scrollToPlayer: true });
+      }
+    });
+  }
+
+  // ==========================================================================
+  // FILTRI & RICERCA IN TEMPO REALE
+  // ==========================================================================
+
+  function applyFiltersAndSearch() {
+    const query = trackSearchInput ? trackSearchInput.value.trim().toLowerCase() : '';
+    let visibleCount = 0;
+
+    trackCards.forEach((card) => {
+      const category = card.dataset.category;
+      const title = card.dataset.title || '';
+      const artist = card.dataset.artist || '';
+      const lyrics = card.dataset.lyrics || '';
+
+      const matchesFilter = (activeFilter === 'all' || category === activeFilter);
+      const matchesSearch = query === '' || 
+        title.includes(query) || 
+        artist.includes(query) || 
+        lyrics.includes(query) ||
+        category.includes(query);
+
+      if (matchesFilter && matchesSearch) {
+        card.classList.remove('hidden');
+        visibleCount++;
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+
+    if (searchCountFeedback) {
+      searchCountFeedback.textContent = `Mostrati ${visibleCount} di ${tracks.length} brani`;
+    }
+
+    if (emptySearchState) {
+      if (visibleCount === 0) {
+        emptySearchState.classList.remove('hidden');
+      } else {
+        emptySearchState.classList.add('hidden');
+      }
+    }
+
+    if (clearSearchBtn) {
+      if (query.length > 0) {
+        clearSearchBtn.classList.remove('hidden');
+      } else {
+        clearSearchBtn.classList.add('hidden');
+      }
     }
   }
 
   filterTabs.forEach((tab) => {
     tab.addEventListener('click', () => {
-      filterTabs.forEach((t) => {
-        t.classList.remove('active');
-        t.setAttribute('aria-selected', 'false');
-      });
+      filterTabs.forEach(t => t.classList.remove('active'));
       tab.classList.add('active');
-      tab.setAttribute('aria-selected', 'true');
-      activeFilter = tab.dataset.category;
-      applyFilters();
+      activeFilter = tab.dataset.filter;
+      applyFiltersAndSearch();
     });
   });
 
-  trackSearchInput.addEventListener('input', () => {
-    if (trackSearchInput.value.trim()) {
-      clearSearchBtn.classList.remove('hidden');
-    } else {
-      clearSearchBtn.classList.add('hidden');
-    }
-    applyFilters();
-  });
+  if (trackSearchInput) {
+    trackSearchInput.addEventListener('input', applyFiltersAndSearch);
+  }
 
-  clearSearchBtn.addEventListener('click', () => {
-    trackSearchInput.value = '';
-    clearSearchBtn.classList.add('hidden');
-    applyFilters();
-    trackSearchInput.focus();
-  });
-
-  resetFiltersBtn.addEventListener('click', () => {
-    trackSearchInput.value = '';
-    clearSearchBtn.classList.add('hidden');
-    activeFilter = 'all';
-    filterTabs.forEach((t) => {
-      t.classList.toggle('active', t.dataset.category === 'all');
-      t.setAttribute('aria-selected', t.dataset.category === 'all' ? 'true' : 'false');
+  if (clearSearchBtn) {
+    clearSearchBtn.addEventListener('click', () => {
+      trackSearchInput.value = '';
+      applyFiltersAndSearch();
+      trackSearchInput.focus();
     });
-    applyFilters();
+  }
+
+  if (resetFiltersBtn) {
+    resetFiltersBtn.addEventListener('click', () => {
+      if (trackSearchInput) trackSearchInput.value = '';
+      activeFilter = 'all';
+      filterTabs.forEach(t => {
+        if (t.dataset.filter === 'all') t.classList.add('active');
+        else t.classList.remove('active');
+      });
+      applyFiltersAndSearch();
+    });
+  }
+
+  // Click su ogni card del catalogo
+  document.querySelectorAll('.btn-play-track, .play-overlay-btn').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const trackId = btn.dataset.id;
+      if (trackId) {
+        playTrackById(trackId, { scrollToPlayer: true });
+      }
+    });
+  });
+
+  document.querySelectorAll('.btn-copy-card-quote').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const quote = btn.dataset.quote;
+      if (quote) {
+        navigator.clipboard.writeText(`«${quote}»`).then(() => {
+          showToast('Verso copiato negli appunti! 📋');
+        });
+      }
+    });
+  });
+
+  trackCards.forEach((card) => {
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('button') || e.target.closest('a')) return;
+      const trackId = card.dataset.id;
+      if (trackId) {
+        playTrackById(trackId, { scrollToPlayer: true });
+      }
+    });
   });
 
   // ==========================================================================
-  // SEZIONE WORKOUT ROCKY 🥊 & INTERVAL TIMER
+  // SEZIONE WORKOUT ROCKY 🥊 (JUKEBOX DIRETTO)
   // ==========================================================================
 
-  workoutToggleBtn.addEventListener('click', () => {
-    const rockySection = document.getElementById('rocky-camp');
-    rockySection.scrollIntoView({ behavior: 'smooth' });
-    showToast('Entrato nel Rocky Balboa Training Camp 🥊');
-  });
+  if (workoutToggleBtn) {
+    workoutToggleBtn.addEventListener('click', () => {
+      const rockySection = document.getElementById('rocky-camp');
+      if (rockySection) rockySection.scrollIntoView({ behavior: 'smooth' });
+      showToast('Entrato nel Rocky Balboa Workout Camp 🥊');
+    });
+  }
 
-  startRockyPlaylistBtn.addEventListener('click', () => {
-    playTrackById('eye-of-the-tiger', { scrollToPlayer: true });
-    showToast('Avviata colonna sonora di Rocky!');
-  });
+  if (startRockyPlaylistBtn) {
+    startRockyPlaylistBtn.addEventListener('click', () => {
+      playTrackById('eye-of-the-tiger', { scrollToPlayer: true });
+      showToast('Avviata sessione Rocky: Eye of the Tiger! 🥊');
+    });
+  }
 
   rockyPills.forEach((pill) => {
     pill.addEventListener('click', () => {
       const trackId = pill.dataset.id;
-      playTrackById(trackId, { scrollToPlayer: true });
+      if (trackId) playTrackById(trackId, { scrollToPlayer: true });
     });
   });
+
+  rockyPlayBtns.forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const trackId = btn.dataset.id;
+      if (trackId) playTrackById(trackId, { scrollToPlayer: true });
+    });
+  });
+
+  rockyMiniCards.forEach((card) => {
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('.rmc-play-btn')) return;
+      const trackId = card.dataset.id;
+      if (trackId) playTrackById(trackId, { scrollToPlayer: true });
+    });
+  });
+
+  // ==========================================================================
+  // SEZIONE CESARE CREMONINI 🇮🇹
+  // ==========================================================================
+
+  if (cremoniniToggleBtn) {
+    cremoniniToggleBtn.addEventListener('click', () => {
+      const cremSection = document.getElementById('cremonini-sanctuary');
+      if (cremSection) cremSection.scrollIntoView({ behavior: 'smooth' });
+      showToast('Benvenuto nel mondo poetico di Cesare Cremonini 🇮🇹');
+    });
+  }
+
+  cremPills.forEach((pill) => {
+    pill.addEventListener('click', () => {
+      const trackId = pill.dataset.id;
+      if (trackId) playTrackById(trackId, { scrollToPlayer: true });
+    });
+  });
+
+  // ==========================================================================
+  // STICKY MINI PLAYER (Persistente allo scroll)
+  // ==========================================================================
+
+  window.addEventListener('scroll', () => {
+    const stageRect = stageCard.getBoundingClientRect();
+    if (stageRect.bottom < 50) {
+      stickyMiniPlayer.classList.remove('hidden');
+    } else {
+      stickyMiniPlayer.classList.add('hidden');
+    }
+  }, { passive: true });
+
+  if (miniPrevBtn) {
+    miniPrevBtn.addEventListener('click', () => {
+      playTrackByIndex(currentTrackIndex - 1, { autoplay: true, notifyToast: true });
+    });
+  }
+
+  if (miniNextBtn) {
+    miniNextBtn.addEventListener('click', () => {
+      playTrackByIndex(currentTrackIndex + 1, { autoplay: true, notifyToast: true });
+    });
+  }
+
+  if (miniJumpToStageBtn) {
+    miniJumpToStageBtn.addEventListener('click', () => {
+      stageCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  }
+
+  // ==========================================================================
+  // MODALE TIMER DI TRANQUILLITÀ / SPEGNIMENTO AUTOMATICO
+  // ==========================================================================
 
   function formatTime(seconds) {
     const m = Math.floor(seconds / 60);
@@ -421,201 +495,95 @@ document.addEventListener('DOMContentLoaded', async () => {
     return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
   }
 
-  function playBellSound(isHigh = false) {
-    try {
-      const ctx = new (window.AudioContext || window.webkitAudioContext)();
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-
-      osc.type = 'triangle';
-      osc.frequency.setValueAtTime(isHigh ? 880 : 440, ctx.currentTime);
-      gain.gain.setValueAtTime(0.3, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.2);
-
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.start();
-      osc.stop(ctx.currentTime + 1.2);
-    } catch (e) {
-      // audio context opzionale
-    }
+  if (openSleepTimerBtn) {
+    openSleepTimerBtn.addEventListener('click', () => {
+      sleepTimerModal.classList.remove('hidden');
+    });
   }
 
-  timerToggleBtn.addEventListener('click', () => {
-    if (workoutIsRunning) {
-      // Pausa
-      clearInterval(workoutTimerInterval);
-      workoutIsRunning = false;
-      timerToggleText.textContent = 'Riprendi Round';
-      timerToggleBtn.querySelector('i').setAttribute('data-lucide', 'play');
-    } else {
-      // Avvia
-      workoutIsRunning = true;
-      timerToggleText.textContent = 'Pausa';
-      timerToggleBtn.querySelector('i').setAttribute('data-lucide', 'pause');
-      playBellSound(true);
-
-      workoutTimerInterval = setInterval(() => {
-        workoutSecondsLeft--;
-        if (workoutSecondsLeft <= 0) {
-          playBellSound(false);
-          if (!workoutIsRest) {
-            // Fine lavoro -> Inizio recupero (60s)
-            workoutIsRest = true;
-            workoutSecondsLeft = 60;
-            timerPhaseLabel.textContent = 'RECUPERO // 1 MINUTO';
-            timerDigits.style.color = 'var(--accent-cyan)';
-            showToast('Fine Round! 1 minuto di recupero.');
-          } else {
-            // Fine recupero -> Nuovo Round (180s)
-            workoutIsRest = false;
-            workoutSecondsLeft = 180;
-            timerPhaseLabel.textContent = 'ROUND SUCCESSIVO // LAVORO';
-            timerDigits.style.color = '#fff';
-            showToast('GONG! Inizia il nuovo round!');
-          }
-        }
-        timerDigits.textContent = formatTime(workoutSecondsLeft);
-      }, 1000);
-    }
-    if (window.lucide) lucide.createIcons();
-  });
-
-  timerResetBtn.addEventListener('click', () => {
-    clearInterval(workoutTimerInterval);
-    workoutIsRunning = false;
-    workoutIsRest = false;
-    workoutSecondsLeft = 180;
-    timerDigits.textContent = '03:00';
-    timerDigits.style.color = '#fff';
-    timerPhaseLabel.textContent = 'ROUND 1 // LAVORO';
-    timerToggleText.textContent = 'Avvia Round';
-    if (window.lucide) lucide.createIcons();
-  });
-
-  // ==========================================================================
-  // SEZIONE CESARE CREMONINI & MELODIA ITALIANA
-  // ==========================================================================
-
-  cremoniniToggleBtn.addEventListener('click', () => {
-    const cremSection = document.getElementById('cremonini-sanctuary');
-    cremSection.scrollIntoView({ behavior: 'smooth' });
-    showToast('Benvenuto nel mondo poetico di Cesare Cremonini 🇮🇹');
-  });
-
-  cremPills.forEach((pill) => {
-    pill.addEventListener('click', () => {
-      const trackId = pill.dataset.id;
-      playTrackById(trackId, { scrollToPlayer: true });
-    });
-  });
-
-  // ==========================================================================
-  // MODALE TIMER DI TRANQUILLITÀ / SLEEP TIMER
-  // ==========================================================================
-
-  openSleepTimerBtn.addEventListener('click', () => {
-    sleepTimerModal.classList.remove('hidden');
-  });
-
-  closeSleepTimerBtn.addEventListener('click', () => {
-    sleepTimerModal.classList.add('hidden');
-  });
-
-  sleepTimerModal.addEventListener('click', (e) => {
-    if (e.target === sleepTimerModal) {
+  if (closeSleepTimerBtn) {
+    closeSleepTimerBtn.addEventListener('click', () => {
       sleepTimerModal.classList.add('hidden');
-    }
-  });
+    });
+  }
+
+  if (sleepTimerModal) {
+    sleepTimerModal.addEventListener('click', (e) => {
+      if (e.target === sleepTimerModal) {
+        sleepTimerModal.classList.add('hidden');
+      }
+    });
+  }
 
   sleepPresets.forEach((btn) => {
     btn.addEventListener('click', () => {
-      const mins = parseInt(btn.dataset.minutes, 10);
-      setSleepTimer(mins);
+      const minutes = parseInt(btn.dataset.minutes, 10);
+      clearInterval(sleepTimerInterval);
+
+      sleepSecondsLeft = minutes * 60;
+      activeTimerBox.classList.remove('hidden');
+      remainingTimeText.textContent = formatTime(sleepSecondsLeft);
+      sleepTimerLabel.textContent = `${minutes}m`;
+      showToast(`Timer di riposo impostato: ${minutes} minuti`);
       sleepTimerModal.classList.add('hidden');
-      showToast(`Timer di spegnimento impostato su ${mins} minuti 🌙`);
+
+      sleepTimerInterval = setInterval(() => {
+        sleepSecondsLeft--;
+        if (sleepSecondsLeft <= 0) {
+          clearInterval(sleepTimerInterval);
+          mainVideoFrame.src = '';
+          activeTimerBox.classList.add('hidden');
+          sleepTimerLabel.textContent = 'Timer Riposo';
+          nowPlayingStatus.textContent = 'Riproduzione terminata dal timer di riposo 🌙';
+          showToast('Timer di riposo scaduto: buona notte!');
+        } else {
+          remainingTimeText.textContent = formatTime(sleepSecondsLeft);
+          sleepTimerLabel.textContent = `${Math.ceil(sleepSecondsLeft / 60)}m`;
+        }
+      }, 1000);
     });
   });
 
-  function setSleepTimer(minutes) {
-    clearTimeout(sleepTimerTimeout);
-    clearInterval(sleepTimerInterval);
-
-    sleepSecondsLeft = minutes * 60;
-    activeTimerBox.classList.remove('hidden');
-    sleepTimerLabel.textContent = `${minutes}m rimanenti`;
-
-    sleepTimerInterval = setInterval(() => {
-      sleepSecondsLeft--;
-      if (sleepSecondsLeft <= 0) {
-        clearInterval(sleepTimerInterval);
-        // Interrompi riproduzione player
-        mainVideoFrame.src = '';
-        activeTimerBox.classList.add('hidden');
-        sleepTimerLabel.textContent = 'Timer Riposo';
-        nowPlayingStatus.textContent = 'Riproduzione terminata dal timer di riposo 🌙';
-        showToast('Timer di riposo scaduto: buona notte!');
-      } else {
-        remainingTimeText.textContent = formatTime(sleepSecondsLeft);
-        sleepTimerLabel.textContent = `${Math.ceil(sleepSecondsLeft / 60)}m`;
-      }
-    }, 1000);
+  if (cancelSleepTimerBtn) {
+    cancelSleepTimerBtn.addEventListener('click', () => {
+      clearInterval(sleepTimerInterval);
+      activeTimerBox.classList.add('hidden');
+      sleepTimerLabel.textContent = 'Timer Riposo';
+      showToast('Timer di riposo annullato.');
+    });
   }
 
-  cancelSleepTimerBtn.addEventListener('click', () => {
-    clearInterval(sleepTimerInterval);
-    sleepSecondsLeft = 0;
-    activeTimerBox.classList.add('hidden');
-    sleepTimerLabel.textContent = 'Timer Riposo';
-    showToast('Timer di riposo annullato.');
-  });
-
   // ==========================================================================
-  // UTILITY: CLIPBOARD & TOAST
+  // TOAST FEEDBACK & BACK TO TOP
   // ==========================================================================
 
-  function copyToClipboard(text) {
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text);
-    } else {
-      const ta = document.createElement('textarea');
-      ta.value = text;
-      ta.style.position = 'fixed';
-      ta.style.opacity = '0';
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand('copy');
-      document.body.removeChild(ta);
-    }
-  }
-
+  let toastTimeout = null;
   function showToast(message) {
+    if (!toastBox || !toastMsg) return;
     toastMsg.textContent = message;
     toastBox.classList.add('show');
-    clearTimeout(window.toastTimer);
-    window.toastTimer = setTimeout(() => {
+    clearTimeout(toastTimeout);
+    toastTimeout = setTimeout(() => {
       toastBox.classList.remove('show');
-    }, 3200);
+    }, 2800);
   }
 
-  backToTopBtn.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
+  if (backToTopBtn) {
+    backToTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
 
-  // Scorciatoie da tastiera (Accessibilità avanzata)
-  window.addEventListener('keydown', (e) => {
-    // Non intercettare se l'utente sta digitando nella barra di ricerca
-    if (document.activeElement === trackSearchInput) return;
-
+  // Keyboard Shortcuts (Space per play/pause iframe non è diretto, frecce per tracce)
+  document.addEventListener('keydown', (e) => {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
     if (e.key === 'ArrowRight') {
-      nextTrackBtn.click();
+      playTrackByIndex(currentTrackIndex + 1, { autoplay: true, notifyToast: true });
     } else if (e.key === 'ArrowLeft') {
-      prevTrackBtn.click();
-    } else if (e.key.toLowerCase() === 'r') {
-      randomTrackBtn.click();
+      playTrackByIndex(currentTrackIndex - 1, { autoplay: true, notifyToast: true });
     }
   });
 
-  // Riproduci la prima traccia (Young and Beautiful) come default senza forzare audio molesto
-  // L'utente può cliccare per avviare
+  // Aggiorna icone finali
+  if (window.lucide) lucide.createIcons();
 });
