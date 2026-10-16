@@ -584,6 +584,249 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   });
 
+
+  // ==========================================================================
+  // CATEGORIA NAVIGATION (DESKTOP + MOBILE DRAWER + FOOTER)
+  // ==========================================================================
+
+  function switchCategory(cat) {
+    activeFilter = cat;
+
+    // Aggiorna tab del catalogo
+    filterTabs.forEach((tab) => {
+      if (tab.dataset.filter === cat) {
+        tab.classList.add('active');
+      } else {
+        tab.classList.remove('active');
+      }
+    });
+
+    // Aggiorna pulsanti header desktop
+    document.querySelectorAll('.nav-cat-btn').forEach((btn) => {
+      if (btn.dataset.category === cat) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+    });
+
+    // Aggiorna pulsanti mobile drawer
+    document.querySelectorAll('.drawer-cat-btn').forEach((btn) => {
+      if (btn.dataset.category === cat) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+    });
+
+    // Applica filtro al grid
+    applyFiltersAndSearch();
+
+    // Scroll verso la sezione rilevante
+    if (cat === 'rocky') {
+      const el = document.getElementById('rocky-camp');
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    } else if (cat === 'cremonini') {
+      const el = document.getElementById('cremonini-sanctuary');
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      const el = document.getElementById('esplora');
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  // Header desktop category buttons
+  document.querySelectorAll('.nav-cat-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      switchCategory(btn.dataset.category);
+    });
+  });
+
+  // Footer category buttons
+  document.querySelectorAll('.footer-nav-btn[data-category]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      switchCategory(btn.dataset.category);
+    });
+  });
+
+  // Mobile Drawer category buttons
+  document.querySelectorAll('.drawer-cat-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      switchCategory(btn.dataset.category);
+      closeMobileDrawer();
+    });
+  });
+
+  // ==========================================================================
+  // MOBILE DRAWER OPEN / CLOSE
+  // ==========================================================================
+
+  const mobileDrawerBackdrop = document.getElementById('mobileDrawerBackdrop');
+  const openMobileMenuBtn = document.getElementById('openMobileMenuBtn');
+  const closeMobileMenuBtn = document.getElementById('closeMobileMenuBtn');
+  const openSleepTimerDrawerBtn = document.getElementById('openSleepTimerDrawerBtn');
+  const openLegalDrawerBtn = document.getElementById('openLegalDrawerBtn');
+  const openPrivacyDrawerBtn = document.getElementById('openPrivacyDrawerBtn');
+
+  function openMobileDrawer() {
+    if (!mobileDrawerBackdrop) return;
+    mobileDrawerBackdrop.classList.add('active');
+    mobileDrawerBackdrop.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    if (window.lucide) lucide.createIcons();
+  }
+
+  function closeMobileDrawer() {
+    if (!mobileDrawerBackdrop) return;
+    mobileDrawerBackdrop.classList.remove('active');
+    mobileDrawerBackdrop.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  if (openMobileMenuBtn) {
+    openMobileMenuBtn.addEventListener('click', openMobileDrawer);
+  }
+
+  if (closeMobileMenuBtn) {
+    closeMobileMenuBtn.addEventListener('click', closeMobileDrawer);
+  }
+
+  if (mobileDrawerBackdrop) {
+    mobileDrawerBackdrop.addEventListener('click', (e) => {
+      if (e.target === mobileDrawerBackdrop) {
+        closeMobileDrawer();
+      }
+    });
+  }
+
+  // Chiudi drawer al click sui normali link nav
+  document.querySelectorAll('.drawer-nav-item[href]').forEach((link) => {
+    link.addEventListener('click', closeMobileDrawer);
+  });
+
+  if (openSleepTimerDrawerBtn) {
+    openSleepTimerDrawerBtn.addEventListener('click', () => {
+      closeMobileDrawer();
+      if (sleepTimerModal) {
+        sleepTimerModal.classList.add('active');
+        sleepTimerModal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      }
+    });
+  }
+
+  // ==========================================================================
+  // COOKIE CONSENT BANNER LOGIC
+  // ==========================================================================
+
+  const cookieBanner = document.getElementById('cookieBanner');
+  const acceptCookieBtn = document.getElementById('acceptCookieBtn');
+  const openLegalFromCookieBtn = document.getElementById('openLegalFromCookieBtn');
+
+  const COOKIE_CONSENT_KEY = 'sanctuary_cookie_consent';
+
+  function initCookieBanner() {
+    if (!cookieBanner) return;
+    const consent = localStorage.getItem(COOKIE_CONSENT_KEY);
+    if (!consent) {
+      setTimeout(() => {
+        cookieBanner.style.display = 'block';
+        if (window.lucide) lucide.createIcons();
+      }, 700);
+    }
+  }
+
+  if (acceptCookieBtn) {
+    acceptCookieBtn.addEventListener('click', () => {
+      localStorage.setItem(COOKIE_CONSENT_KEY, 'accepted');
+      if (cookieBanner) {
+        cookieBanner.style.animation = 'none';
+        cookieBanner.style.opacity = '0';
+        cookieBanner.style.transition = 'opacity 0.3s ease';
+        setTimeout(() => {
+          cookieBanner.style.display = 'none';
+        }, 300);
+      }
+      showToast('Preferenze privacy memorizzate.');
+    });
+  }
+
+  initCookieBanner();
+
+  // ==========================================================================
+  // LEGAL & PRIVACY MODAL
+  // ==========================================================================
+
+  const legalModal = document.getElementById('legalModal');
+  const openLegalModalBtn = document.getElementById('openLegalModalBtn');
+  const closeLegalModalBtn = document.getElementById('closeLegalModalBtn');
+  const confirmLegalModalBtn = document.getElementById('confirmLegalModalBtn');
+  const footerOpenLegalBtn = document.getElementById('footerOpenLegalBtn');
+  const footerOpenPrivacyBtn = document.getElementById('footerOpenPrivacyBtn');
+  const footerOpenNoticeBtn = document.getElementById('footerOpenNoticeBtn');
+
+  function openLegalModal() {
+    if (!legalModal) return;
+    legalModal.classList.add('active');
+    legalModal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    if (window.lucide) lucide.createIcons();
+  }
+
+  function closeLegalModal() {
+    if (!legalModal) return;
+    legalModal.classList.remove('active');
+    legalModal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  if (openLegalModalBtn) openLegalModalBtn.addEventListener('click', openLegalModal);
+  if (closeLegalModalBtn) closeLegalModalBtn.addEventListener('click', closeLegalModal);
+  if (confirmLegalModalBtn) confirmLegalModalBtn.addEventListener('click', closeLegalModal);
+
+  if (openLegalFromCookieBtn) {
+    openLegalFromCookieBtn.addEventListener('click', openLegalModal);
+  }
+
+  if (openLegalDrawerBtn) {
+    openLegalDrawerBtn.addEventListener('click', () => {
+      closeMobileDrawer();
+      openLegalModal();
+    });
+  }
+
+  if (openPrivacyDrawerBtn) {
+    openPrivacyDrawerBtn.addEventListener('click', () => {
+      closeMobileDrawer();
+      openLegalModal();
+    });
+  }
+
+  if (footerOpenLegalBtn) footerOpenLegalBtn.addEventListener('click', openLegalModal);
+  if (footerOpenPrivacyBtn) footerOpenPrivacyBtn.addEventListener('click', openLegalModal);
+  if (footerOpenNoticeBtn) footerOpenNoticeBtn.addEventListener('click', openLegalModal);
+
+  if (legalModal) {
+    legalModal.addEventListener('click', (e) => {
+      if (e.target === legalModal) {
+        closeLegalModal();
+      }
+    });
+  }
+
+  // Chiusura con tasto Escape per tutti i modali
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeMobileDrawer();
+      closeLegalModal();
+      if (sleepTimerModal && sleepTimerModal.classList.contains('active')) {
+        sleepTimerModal.classList.remove('active');
+        sleepTimerModal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      }
+    }
+  });
+
   // Aggiorna icone finali
   if (window.lucide) lucide.createIcons();
 });

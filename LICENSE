@@ -1,0 +1,32 @@
+MIT License
+
+Copyright (c) 2026 Sanctuary Music Vault
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+DISCLAIMER REGARDING THIRD-PARTY AUDIO/VIDEO CONTENT:
+The underlying musical compositions, master sound recordings, lyrics, artist names,
+movie titles, cover artwork, and trademarks referenced or embedded within the
+Software belong exclusively to their respective composers, recording artists,
+publishing companies, film studios, and record labels. 
+
+This repository and web application DO NOT host, store, download, or distribute
+any copyrighted audio or video files. All playback functionality is achieved via
+the official, legitimate YouTube Embedded Player API provided by Google LLC / YouTube LLC,
+in full compliance with YouTube Terms of Service.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

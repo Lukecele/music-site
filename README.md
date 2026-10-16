@@ -29,6 +29,17 @@ Portale musicale personale, interattivo, sereno ed epico, progettato con archite
   - Schema.org `MusicPlaylist` e `MusicRecording` JSON-LD per tutti i 45 brani.
   - Open Graph e Twitter Cards in alta definizione (1200×630).
 
+## ⚖️ Conformità Legale, Diritto d'Autore & Privacy (GDPR)
+
+Il progetto è sviluppato nel rigoroso rispetto della normativa italiana ed europea in materia di proprietà intellettuale e protezione dei dati personali:
+
+- **Diritti d'Autore & Copyright (Legge 633/1941 & Direttiva UE 2001/29/CE)**:
+  Tutti i contenuti multimediali appartengono ai legittimi titolari del copyright. La riproduzione avviene unicamente mediante incorporamento legittimo tramite YouTube Embedded Player API, senza memorizzazione o streaming proprietario da server, in conformità alla giurisprudenza vincolante della Corte di Giustizia dell'Unione Europea (**Sentenza Svensson C-466/12** e **Ordinanza BestWater C-348/13**). Per i dettagli completi, consultare [LEGAL.md](LEGAL.md).
+- **Privacy & Cookie Policy (GDPR - Regolamento UE 2016/679)**:
+  Nessun dato personale raccolto, zero tracciamento o cookie di profilazione. L'applicazione utilizza unicamente la memoria locale del browser (*LocalStorage*) per salvare le preferenze tecniche. Per i dettagli completi, consultare [PRIVACY.md](PRIVACY.md).
+- **Licenza Software**:
+  Il codice sorgente dell'interfaccia utente è distribuito sotto licenza MIT. Per i dettagli, consultare [LICENSE](LICENSE).
+
 ## 🚀 Live Demo
-Deploy su Vercel: [https://music-site-ten-green.vercel.app](https://music-site-ten-green.vercel.app)
-Repository GitHub: [https://github.com/Lukecele/music-site](https://github.com/Lukecele/music-site)
+- **Sito Web Live**: [https://music-site-ten-green.vercel.app](https://music-site-ten-green.vercel.app)
+- **Repository GitHub**: [https://github.com/Lukecele/music-site](https://github.com/Lukecele/music-site)

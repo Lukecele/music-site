@@ -1,7 +1,7 @@
 {
   "name": "Sanctuary | Il Mio Rifugio Musicale",
   "short_name": "Sanctuary",
-  "description": "Un porto sicuro per l'anima, il fuoco per l'allenamento e le melodie che ci definiscono: 41 brani cult con player YouTube HD e modalità workout.",
+  "description": "45 brani selezionati per l'anima, l'allenamento e l'energia vitale: player YouTube HD con sezioni per Rifugio dell'Anima, Cinema & Anime, Rocky Training Camp, Rock e Cesare Cremonini.",
   "start_url": "/",
   "id": "/",
   "scope": "/",
@@ -12,6 +12,43 @@
   "lang": "it-IT",
   "dir": "ltr",
   "categories": ["music", "entertainment", "lifestyle"],
+  "shortcuts": [
+    {
+      "name": "Rocky Training Camp 🥊",
+      "short_name": "Rocky 🥊",
+      "description": "Accedi subito alla colonna sonora per l'allenamento",
+      "url": "/#rocky-camp",
+      "icons": [{ "src": "/assets/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Cesare Cremonini 🇮🇹",
+      "short_name": "Cremonini",
+      "description": "Ascolta i capolavori di Cesare Cremonini",
+      "url": "/#cremonini-sanctuary",
+      "icons": [{ "src": "/assets/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Cinema & Anime 🎬",
+      "short_name": "Cinema",
+      "description": "Hercules, Mulan, Re Leone 2, Dragon Ball GT",
+      "url": "/#esplora",
+      "icons": [{ "src": "/assets/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Rock & Ribellione ⚡",
+      "short_name": "Rock ⚡",
+      "description": "Linkin Park, Evanescence, Green Day, Serj Tankian",
+      "url": "/#esplora",
+      "icons": [{ "src": "/assets/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Rifugio dell'Anima 🌙",
+      "short_name": "Rifugio",
+      "description": "Lana Del Rey, Billie Eilish, Jeff Buckley, Ultimo",
+      "url": "/#palcoscenico",
+      "icons": [{ "src": "/assets/icon-192.png", "sizes": "192x192" }]
+    }
+  ],
   "icons": [
     {
       "src": "/assets/icon-192.png",
