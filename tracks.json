@@ -9,7 +9,8 @@
     "year": "2013",
     "vibe": "Malinconia & Grazia Eterna",
     "lyricsQuote": "Will you still love me when I'm no longer young and beautiful? Will you still love me when I got nothing but my aching soul?",
-    "accentColor": "#60a5fa"
+    "accentColor": "#60a5fa",
+    "keywords": "lana del rey the great gatsby colonna sonora retro vintage indie pop malinconia"
   },
   {
     "id": "lovely",
@@ -21,7 +22,8 @@
     "year": "2018",
     "vibe": "Etereo & Profonda Introspezione",
     "lyricsQuote": "Thought I found a way out, but you never go away... Isn't it lovely, all alone? Heart made of glass, my mind of stone.",
-    "accentColor": "#38bdf8"
+    "accentColor": "#38bdf8",
+    "keywords": "billie eilish khalid 13 reasons why indie pop malinconia duetto introspezione"
   },
   {
     "id": "hallelujah",
@@ -33,7 +35,8 @@
     "year": "1994",
     "vibe": "Capolavoro Mistico & Sacro",
     "lyricsQuote": "Well it goes like this: the fourth, the fifth, the minor fall, the major lift... The baffled king composing Hallelujah.",
-    "accentColor": "#f59e0b"
+    "accentColor": "#f59e0b",
+    "keywords": "jeff buckley leonard cohen capolavoro chitarra mistico sacro preghiera"
   },
   {
     "id": "imagine",
@@ -45,7 +48,8 @@
     "year": "1971",
     "vibe": "Pace Universale & Speranza",
     "lyricsQuote": "You may say I'm a dreamer, but I'm not the only one. I hope someday you'll join us, and the world will be as one.",
-    "accentColor": "#e2e8f0"
+    "accentColor": "#e2e8f0",
+    "keywords": "john lennon the beatles pace peace pianoforte speranza utopia"
   },
   {
     "id": "three-little-birds",
@@ -57,7 +61,8 @@
     "year": "1977",
     "vibe": "Tranquillità & Serenità Assoluta",
     "lyricsQuote": "Don't worry about a thing, 'cause every little thing is gonna be alright.",
-    "accentColor": "#10b981"
+    "accentColor": "#10b981",
+    "keywords": "bob marley the wailers reggae giamaica positivita serenita dont worry cant worry"
   },
   {
     "id": "pianeti",
@@ -69,7 +74,8 @@
     "year": "2017",
     "vibe": "Solitudine & Desiderio di Infinito",
     "lyricsQuote": "E allora se ci sei portami via con te, lontano dai rumori dove il sole c'è... Io che ho scelto di vivere solo sui pianeti.",
-    "accentColor": "#a855f7"
+    "accentColor": "#a855f7",
+    "keywords": "ultimo niccolo moriconi pop italiano sanremo pianoforte solitudine stelle"
   },
   {
     "id": "casa-mia",
@@ -81,7 +87,8 @@
     "year": "2024",
     "vibe": "Umanità, Stelle & Radici",
     "lyricsQuote": "Ma come fate a dire che qui è tutto normale, per tracciare un confine con linee immaginarie bombardate un ospedale? Casa mia, casa tua... che differenza c'è?",
-    "accentColor": "#34d399"
+    "accentColor": "#34d399",
+    "keywords": "ghali sanremo 2024 rap pop italia extraterrestre alieno confini guerra pace"
   },
   {
     "id": "demons",
@@ -93,7 +100,8 @@
     "year": "2012",
     "vibe": "Lotta Interiore & Vulnerabilità",
     "lyricsQuote": "When you feel my heat, look into my eyes: it's where my demons hide. Don't get too close, it's dark inside.",
-    "accentColor": "#818cf8"
+    "accentColor": "#818cf8",
+    "keywords": "imagine dragons dan reynolds alt rock indie rock radioactive vulnerabilita"
   },
   {
     "id": "vincero-nessun-dorma",
@@ -105,7 +113,8 @@
     "year": "1990",
     "vibe": "Estasi Lirica & Trionfo",
     "lyricsQuote": "Dilegua, o notte! Tramontate, stelle! All'alba vincerò! Vincerò! Vincerò!",
-    "accentColor": "#fbbf24"
+    "accentColor": "#fbbf24",
+    "keywords": "luciano pavarotti giacomo puccini turandot opera lirica vincero vincerò italia classico tenore"
   },
   {
     "id": "con-te-partiro",
@@ -117,7 +126,8 @@
     "year": "1995",
     "vibe": "Nostalgia, Luce & Orizzonti",
     "lyricsQuote": "Con te partirò, su navi per mari che, io lo so, no, no, non esistono più: con te io li vivrò.",
-    "accentColor": "#38bdf8"
+    "accentColor": "#38bdf8",
+    "keywords": "andrea bocelli lirica con te partiro con te partirò time to say goodbye classica italia tenore"
   },
   {
     "id": "posso-farcela",
@@ -129,7 +139,8 @@
     "year": "1997",
     "vibe": "Determinazione & Destino Eroico",
     "lyricsQuote": "Io lo so, ce la farò! Oltre gli ostacoli troverò la mia strada... So che se resisterò, un giorno io sarò dove il mio cuore vuol portarmi!",
-    "accentColor": "#fbbf24"
+    "accentColor": "#fbbf24",
+    "keywords": "hercules alex baroni disney colonna sonora cartoni animati go the distance posso farcela eroe motivazione alexbaroni"
   },
   {
     "id": "go-the-distance-eng",
@@ -141,7 +152,8 @@
     "year": "1997",
     "vibe": "Ispirazione & Cammino degli Eroi",
     "lyricsQuote": "I have often dreamed of a far off place where a great warm welcome will be waiting for me... I can go the distance!",
-    "accentColor": "#f59e0b"
+    "accentColor": "#f59e0b",
+    "keywords": "roger bart hercules disney original soundtrack hero motivation go the distance colonna sonora"
   },
   {
     "id": "faro-di-te-un-uomo",
@@ -153,7 +165,8 @@
     "year": "1998",
     "vibe": "Coraggio, Disciplina & Onore",
     "lyricsQuote": "Uomini, uniti e fieri, troverete il vostro destino! Come la folgore voi colpirete, invincibili guerrieri!",
-    "accentColor": "#ef4444"
+    "accentColor": "#ef4444",
+    "keywords": "mulan disney faro di te un uomo farò di te un uomo ill make a man out of you shang guerriero allenamento motivazione cartoni animati"
   },
   {
     "id": "unica-realta-re-leone",
@@ -165,7 +178,8 @@
     "year": "1998",
     "vibe": "Amore Paterno, Saggezza & Destino",
     "lyricsQuote": "Noi siamo un'unica realtà, io e te... Il viaggio è appena cominciato e la saggezza troverai!",
-    "accentColor": "#f97316"
+    "accentColor": "#f97316",
+    "keywords": "il re leone 2 the lion king roberto stafoggia ununica realta un'unica realtà we are one simba kiara kovu disney releone lionking cartoni animati"
   },
   {
     "id": "my-heart-will-go-on",
@@ -177,7 +191,8 @@
     "year": "1997",
     "vibe": "Eternità, Passione & Sentimento Puro",
     "lyricsQuote": "Near, far, wherever you are, I believe that the heart does go on. Once more, you open the door and you're here in my heart...",
-    "accentColor": "#38bdf8"
+    "accentColor": "#38bdf8",
+    "keywords": "celine dion céline dion titanic leonardo dicaprio kate winslet amore eterno colonna sonora film cinema jack rose"
   },
   {
     "id": "dragon-ball-gt-ita",
@@ -189,7 +204,8 @@
     "year": "2001",
     "vibe": "Energia Infinita & Spirito Saiyan",
     "lyricsQuote": "Dragon Ball GT, siamo tutti qui, non c'è un drago che sia grande più di te! Vola ragazzo, fai vincere il bene!",
-    "accentColor": "#eab308"
+    "accentColor": "#eab308",
+    "keywords": "giorgio vanni dragon ball gt dragonball dragonball gt sigla mediaset cartoni animati goku vegeta anime super saiyan anni 90 2000"
   },
   {
     "id": "dragon-ball-gt-dan-dan",
@@ -201,7 +217,8 @@
     "year": "1996",
     "vibe": "Nostalgia Emozionante & Leggenda Anime",
     "lyricsQuote": "Dan dan kokoro hikareteku, sono mabushii egao ni... Hatenai yami kara tobidasou, hold my hand!",
-    "accentColor": "#ec4899"
+    "accentColor": "#ec4899",
+    "keywords": "field of view dragon ball gt dragonball dan dan kokoro hikareteku sigla originale giapponese anime goku vegeta japan"
   },
   {
     "id": "ci-sono-anch-io",
@@ -213,7 +230,8 @@
     "year": "2002",
     "vibe": "Crescita, Ribellione & Identità",
     "lyricsQuote": "Io non so cosa sia questa rabbia che c'è in me... Ma so che finché avrò voce dirò: ci sono anch'io!",
-    "accentColor": "#06b6d4"
+    "accentColor": "#06b6d4",
+    "keywords": "max pezzali 883 il pianeta del tesoro treasure planet disney im still here john rzeznik cartoni animati crescita ribellione"
   },
   {
     "id": "eye-of-the-tiger",
@@ -225,7 +243,8 @@
     "year": "1982",
     "vibe": "Concentrazione Letale & Riscatto",
     "lyricsQuote": "It's the eye of the tiger, it's the thrill of the fight, rising up to the challenge of our rival!",
-    "accentColor": "#ef4444"
+    "accentColor": "#ef4444",
+    "keywords": "survivor rocky iii rocky 3 sylvester stallone stallone rocky balboa pugilato boxe allenamento carica motivazione gym fitness training"
   },
   {
     "id": "training-montage",
@@ -237,7 +256,8 @@
     "year": "1985",
     "vibe": "Allenamento Estremo tra la Neve",
     "lyricsQuote": "La leggendaria preparazione solitaria di Rocky tra i boschi siberiani contro la macchina russa di Ivan Drago.",
-    "accentColor": "#f87171"
+    "accentColor": "#f87171",
+    "keywords": "vince dicola rocky iv rocky 4 sylvester stallone stallone rocky balboa ivan drago russia allenamento synth 80s gym fitness carica"
   },
   {
     "id": "gonna-fly-now",
@@ -249,7 +269,8 @@
     "year": "1976",
     "vibe": "Trionfo della Volontà & Grinta",
     "lyricsQuote": "La storica corsa all'alba verso la scalinata del Philadelphia Museum of Art a braccia alzate verso il cielo.",
-    "accentColor": "#f59e0b"
+    "accentColor": "#f59e0b",
+    "keywords": "bill conti rocky rocky i sylvester stallone stallone rocky balboa scalinata filadelfia philadelphia tromba pugilato boxe motivazione"
   },
   {
     "id": "going-the-distance",
@@ -261,7 +282,8 @@
     "year": "1976",
     "vibe": "Resistenza Fino al Gong Finale",
     "lyricsQuote": "«Nessuno è mai arrivato alla fine con Creed. Se riuscirò a reggere fino al gong della 15ª ripresa... saprò per la prima volta che non sono solo un bullo di quartiere.»",
-    "accentColor": "#eab308"
+    "accentColor": "#eab308",
+    "keywords": "bill conti rocky rocky i sylvester stallone stallone rocky balboa 15 round apollo creed cuore riscatto vittoria boxe pugilato"
   },
   {
     "id": "hearts-on-fire",
@@ -273,7 +295,8 @@
     "year": "1985",
     "vibe": "Energia Pura & Carica Estrema",
     "lyricsQuote": "Hearts on fire, strong desire, rages deep within! A restless soul, a burning heart inside!",
-    "accentColor": "#dc2626"
+    "accentColor": "#dc2626",
+    "keywords": "john cafferty rocky iv rocky 4 sylvester stallone stallone rocky balboa ivan drago allenamento neve corsa gym carica fitness 80s"
   },
   {
     "id": "burning-heart",
@@ -285,7 +308,8 @@
     "year": "1985",
     "vibe": "Guerra di Volontà & Sacrificio",
     "lyricsQuote": "In the warrior's code there's no surrender, though his body says stop, his spirit cries: NEVER!",
-    "accentColor": "#b91c1c"
+    "accentColor": "#b91c1c",
+    "keywords": "survivor rocky iv rocky 4 sylvester stallone stallone rocky balboa guerra fredda est contro ovest carica rock 80s pugilato"
   },
   {
     "id": "no-easy-way-out",
@@ -297,7 +321,8 @@
     "year": "1985",
     "vibe": "Viaggio Notturno & Determinazione",
     "lyricsQuote": "There's no easy way out, there's no shortcut home. We might get burned by the setting sun, but we've gotta go!",
-    "accentColor": "#991b1b"
+    "accentColor": "#991b1b",
+    "keywords": "robert tepper rocky iv rocky 4 sylvester stallone stallone rocky balboa lamborghini apollo creed rimpianto carica notte guida"
   },
   {
     "id": "war-dicola",
@@ -309,7 +334,8 @@
     "year": "1985",
     "vibe": "Battaglia Finale sul Ring di Mosca",
     "lyricsQuote": "I timpani sinfonici e la furia dei sintetizzatori che accompagnano lo scontro mortale contro Ivan Drago.",
-    "accentColor": "#7f1d1d"
+    "accentColor": "#7f1d1d",
+    "keywords": "vince dicola rocky iv rocky 4 sylvester stallone stallone rocky balboa ivan drago scontro finale mosca synthesizers epico boxe"
   },
   {
     "id": "redemption-conti",
@@ -321,7 +347,8 @@
     "year": "1979",
     "vibe": "Riscatto, Gloria & Famiglia",
     "lyricsQuote": "L'inno trionfale della rivincita mondiale: dal tappeto al titolo dei pesi massimi e l'urlo: «Adrianaaa!»",
-    "accentColor": "#f59e0b"
+    "accentColor": "#f59e0b",
+    "keywords": "bill conti rocky ii rocky 2 sylvester stallone stallone rocky balboa rivincita apollo creed campione del mondo vittoria riscatto"
   },
   {
     "id": "empty-walls",
@@ -333,7 +360,8 @@
     "year": "2007",
     "vibe": "Intensità Viscerale & Rivolta",
     "lyricsQuote": "Don't you see their bodies with quicksand? Don't you see their children with quicksand? Empty walls, don't you see...",
-    "accentColor": "#dc2626"
+    "accentColor": "#dc2626",
+    "keywords": "serj tankian system of a down soad alt metal rock ribellione politica guerra metal"
   },
   {
     "id": "set-the-world-on-fire",
@@ -345,7 +373,8 @@
     "year": "2007",
     "vibe": "Prog-Metal Virtuoso & Furia Epica",
     "lyricsQuote": "Set the world on fire! Rise up from the ashes, screaming through the storm of the lie of lies!",
-    "accentColor": "#ea580c"
+    "accentColor": "#ea580c",
+    "keywords": "symphony x michael romeo russell allen progressive metal power metal chitarra assolo neoclassico virtuosismo"
   },
   {
     "id": "bring-me-to-life",
@@ -357,7 +386,8 @@
     "year": "2003",
     "vibe": "Gotico, Risveglio & Potenza",
     "lyricsQuote": "Wake me up inside, wake me up inside, call my name and save me from the dark! Bid my blood to run before I come undone!",
-    "accentColor": "#8b5cf6"
+    "accentColor": "#8b5cf6",
+    "keywords": "evanescence amy lee gothic rock alt rock nu metal risveglio anni 2000 fallen"
   },
   {
     "id": "in-the-end",
@@ -369,7 +399,8 @@
     "year": "2000",
     "vibe": "Inno Generazionale Indelebile",
     "lyricsQuote": "I tried so hard and got so far, but in the end it doesn't even matter. I had to fall to lose it all, but in the end it doesn't even matter.",
-    "accentColor": "#38bdf8"
+    "accentColor": "#38bdf8",
+    "keywords": "linkin park chester bennington mike shinoda hybrid theory nu metal alt rock anni 2000"
   },
   {
     "id": "numb",
@@ -381,7 +412,8 @@
     "year": "2003",
     "vibe": "Liberazione & Sfogo Autentico",
     "lyricsQuote": "I've become so numb, I can't feel you there. Become so tired, so much more aware. By becoming this all I want to do is be more like me and be less like you.",
-    "accentColor": "#0ea5e9"
+    "accentColor": "#0ea5e9",
+    "keywords": "linkin park chester bennington meteora alt rock nu metal ribellione pressione anni 2000"
   },
   {
     "id": "faint",
@@ -393,7 +425,8 @@
     "year": "2003",
     "vibe": "Adrenalina Pura & Urlo Ribelle",
     "lyricsQuote": "I can't feel the way I did before, don't turn your back on me, I won't be ignored! Time won't heal this damage anymore!",
-    "accentColor": "#f43f5e"
+    "accentColor": "#f43f5e",
+    "keywords": "linkin park chester bennington meteora nu metal energia pura scream chitarra anni 2000"
   },
   {
     "id": "crawling",
@@ -405,7 +438,8 @@
     "year": "2000",
     "vibe": "Dolore Crudo & Resilienza",
     "lyricsQuote": "Crawling in my skin, these wounds they will not heal. Fear is how I fall, confusing what is real.",
-    "accentColor": "#64748b"
+    "accentColor": "#64748b",
+    "keywords": "linkin park chester bennington hybrid theory nu metal dolore sfogo vulnerabilita anni 2000"
   },
   {
     "id": "what-ive-done",
@@ -417,7 +451,8 @@
     "year": "2007",
     "vibe": "Catarsi & Nuovo Inizio",
     "lyricsQuote": "In this farewell, there's no blood, there's no alibi... Forgiving what I've done, I face myself to cross out what I've become.",
-    "accentColor": "#94a3b8"
+    "accentColor": "#94a3b8",
+    "keywords": "linkin park chester bennington transformers minutes to midnight perdono rinascita what ive done what i've done anni 2000"
   },
   {
     "id": "boulevard-of-broken-dreams",
@@ -429,7 +464,8 @@
     "year": "2004",
     "vibe": "Cammino Solitario & Verità",
     "lyricsQuote": "I walk a lonely road, the only one that I have ever known. Don't know where it goes, but it's home to me and I walk alone.",
-    "accentColor": "#10b981"
+    "accentColor": "#10b981",
+    "keywords": "green day billie joe armstrong american idiot punk rock solitudine cammino anni 2000"
   },
   {
     "id": "domani-smetto",
@@ -441,7 +477,8 @@
     "year": "2002",
     "vibe": "Spirito Punk, Ironia & Libertà",
     "lyricsQuote": "E allora se volete giudicare quello che non conoscete... Parlate pure ma domani smetto, domani smetto, domani smetto!",
-    "accentColor": "#f97316"
+    "accentColor": "#f97316",
+    "keywords": "articolo 31 j-ax j ax dj jad rap rock punk rap italia ribellione giovinezza anni 2000"
   },
   {
     "id": "logico-1",
@@ -453,7 +490,8 @@
     "year": "2014",
     "vibe": "Ritmo Elettrico & Destino Inevitabile",
     "lyricsQuote": "Logico sì, è logico, per tutti ma non per noi! Ti sembra logico che sia il tempo a decidere chi sei?",
-    "accentColor": "#f97316"
+    "accentColor": "#f97316",
+    "keywords": "cesare cremonini logico pop italiano bologna logico #1 logico 1 sanctuary cantautore"
   },
   {
     "id": "il-comico",
@@ -465,7 +503,8 @@
     "year": "2012",
     "vibe": "Ironia Dolceamara & Maschere",
     "lyricsQuote": "Sai che risate se poi ci scoprono a ballare in mutande sul tetto del mondo? Sai che risate!",
-    "accentColor": "#fb923c"
+    "accentColor": "#fb923c",
+    "keywords": "cesare cremonini la teoria dei colori sai che risate ironia amore pop italiano bologna cantautore"
   },
   {
     "id": "vieni-a-vedere-perche",
@@ -477,7 +516,8 @@
     "year": "2002",
     "vibe": "Pianoforte Puro & Vulnerabilità",
     "lyricsQuote": "Vieni a vedere perché, non ho paura di cadere giù dal cielo se tu sei lì per terra pronta a raccogliermi...",
-    "accentColor": "#f59e0b"
+    "accentColor": "#f59e0b",
+    "keywords": "cesare cremonini bagus pianoforte poesia vieni a vedere perche vieni a vedere perché amore bologna cantautore"
   },
   {
     "id": "marmellata-25",
@@ -489,7 +529,8 @@
     "year": "2005",
     "vibe": "Nostalgia Affettuosa & Ricordi",
     "lyricsQuote": "Ah, da quando Senna non corre più... Da quando Baggio non gioca più, oh no no, da quando tu non mi ami più!",
-    "accentColor": "#ef4444"
+    "accentColor": "#ef4444",
+    "keywords": "cesare cremonini maggese marmellata 25 marmellata #25 separazione nostalgia bologna cantautore"
   },
   {
     "id": "poetica",
@@ -501,7 +542,8 @@
     "year": "2017",
     "vibe": "Capolavoro Sinfonico & Notturno",
     "lyricsQuote": "Anche quando poi saremo stanchi, troveremo il modo per cantare insieme: questa sera sei bellissima...",
-    "accentColor": "#a855f7"
+    "accentColor": "#a855f7",
+    "keywords": "cesare cremonini possibili scenari poesia notte stelle vita bologna capolavoro cantautore"
   },
   {
     "id": "nessuno-vuole-essere-robin",
@@ -513,7 +555,8 @@
     "year": "2018",
     "vibe": "Fragilità Vera & Maschere Sociali",
     "lyricsQuote": "Tutti con il numero dieci sulla schiena, e poi si dimenticano di giocare... Sai che nessuno vuole essere Robin?",
-    "accentColor": "#3b82f6"
+    "accentColor": "#3b82f6",
+    "keywords": "cesare cremonini possibili scenari batman robin fragilita verita malinconia bologna cantautore"
   },
   {
     "id": "la-nuova-stella-di-broadway",
@@ -525,7 +568,8 @@
     "year": "2013",
     "vibe": "Racconto Cinematografico & Sogno",
     "lyricsQuote": "Lui faceva il jazz, lei ballava il tip-tap... Si sono amati una notte soltanto, ed è bastato per tutta la vita.",
-    "accentColor": "#ec4899"
+    "accentColor": "#ec4899",
+    "keywords": "cesare cremonini la teoria dei colori new york musical viaggio romanticismo bologna cantautore"
   },
   {
     "id": "50-special",
@@ -537,7 +581,8 @@
     "year": "1999",
     "vibe": "Giovinezza, Estate sui Colli & Libertà",
     "lyricsQuote": "Ma quanto è bello andare in giro con le ali sotto ai piedi se hai una Vespa Special che ti toglie i problemi!",
-    "accentColor": "#10b981"
+    "accentColor": "#10b981",
+    "keywords": "lunapop lùnapop cesare cremonini vespa 50 special colli bolognesi estate giovinezza spensieratezza 50special"
   },
   {
     "id": "who-wants-to-live-forever",
@@ -548,7 +593,8 @@
     "year": 1986,
     "vibe": "Epico, Immortale & Trascendente",
     "lyricsQuote": "There's no time for us, there's no place for us... Who wants to live forever when love must die?",
-    "notes": "Colonna sonora leggendaria del film cult Highlander con l'orchestra sinfonica National Philharmonic. L'intensità vocale senza tempo di Freddie Mercury."
+    "notes": "Colonna sonora leggendaria del film cult Highlander con l'orchestra sinfonica National Philharmonic. L'intensità vocale senza tempo di Freddie Mercury.",
+    "keywords": "queen freddie mercury brian may highlander colonna sonora immortalita amore eterno rock anni 80 wembley"
   },
   {
     "id": "radio-ga-ga",
@@ -559,7 +605,8 @@
     "year": 1984,
     "vibe": "Inno Globale & Nostalgia Trionfale",
     "lyricsQuote": "All we hear is Radio ga ga, Radio goo goo, Radio ga ga. Radio, someone still loves you!",
-    "notes": "Inno synth-rock immortale che ha fatto tremare lo stadio di Wembley al Live Aid 1985 con il battito di mani sincronizzato di 72.000 persone."
+    "notes": "Inno synth-rock immortale che ha fatto tremare lo stadio di Wembley al Live Aid 1985 con il battito di mani sincronizzato di 72.000 persone.",
+    "keywords": "queen freddie mercury roger taylor live aid wembley radiogaga radio gaga synth rock anni 80 battimani"
   },
   {
     "id": "heal-the-world",
@@ -570,7 +617,8 @@
     "year": 1991,
     "vibe": "Pace, Umanità & Speranza Pura",
     "lyricsQuote": "Heal the world, make it a better place, for you and for me and the entire human race.",
-    "notes": "La canzone che Michael Jackson stesso definiva come la più importante e fiera della sua carriera, creata per toccare le corde più profonde della compassione umana."
+    "notes": "La canzone che Michael Jackson stesso definiva come la più importante e fiera della sua carriera, creata per toccare le corde più profonde della compassione umana.",
+    "keywords": "michael jackson dangerous king of pop pace nel mondo bambini solidarieta beneficenza anni 90 king of pop michaeljackson"
   },
   {
     "id": "we-are-the-world",
@@ -581,7 +629,8 @@
     "year": 1985,
     "vibe": "Il Più Grande Inno di Solidarietà della Storia",
     "lyricsQuote": "We are the world, we are the children, we are the ones who make a brighter day, so let's start giving.",
-    "notes": "45 tra le più grandi leggende musicali riunite in una notte memorabile ai Columbia Studios. Scritta da Michael Jackson e Lionel Richie, prodotta da Quincy Jones."
+    "notes": "45 tra le più grandi leggende musicali riunite in una notte memorabile ai Columbia Studios. Scritta da Michael Jackson e Lionel Richie, prodotta da Quincy Jones.",
+    "keywords": "usa for africa michael jackson lionel richie quincy jones stevie wonder bruce springsteen bob dylan we are the world inno beneficenza anni 80 michaeljackson"
   },
   {
     "id": "a-modo-tuo",
@@ -592,7 +641,8 @@
     "year": 2014,
     "vibe": "Amore Paterno, Protezione & Libertà",
     "lyricsQuote": "Sarà difficile dirti tanti auguri per ogni compleanno che vai facendo... Sarà difficile lasciarti al mondo e tenere un pezzetto per me.",
-    "notes": "Una delle poesie musicali più toccanti e intime scritte da Ligabue sulla bellezza e la fatica di lasciar crescere chi si ama."
+    "notes": "Una delle poesie musicali più toccanti e intime scritte da Ligabue sulla bellezza e la fatica di lasciar crescere chi si ama.",
+    "keywords": "luciano ligabue liga elisa amore paterno genitori figli protezione crescere cantautore italiano rock rifugio"
   },
   {
     "id": "al-di-fuori-di-me",
@@ -603,7 +653,8 @@
     "year": 1999,
     "vibe": "Scoperta, Meraviglia & Curiosità Senza Fine",
     "lyricsQuote": "Voglio sapere, mostrami ogni cosa, insegnami tutto ciò che c'è da imparare sul vostro mondo... al di fuori di me.",
-    "notes": "La meraviglia della scoperta e della conoscenza umana, magistralmente interpretata in italiano da Phil Collins per il capolavoro Disney Tarzan."
+    "notes": "La meraviglia della scoperta e della conoscenza umana, magistralmente interpretata in italiano da Phil Collins per il capolavoro Disney Tarzan.",
+    "keywords": "phil collins tarzan disney strangers like me colonna sonora al di fuori di me scoperta curiosita cartoni animati anni 90 philcollins"
   },
   {
     "id": "figlio-di-un-uomo",
@@ -614,6 +665,7 @@
     "year": 1999,
     "vibe": "Crescita, Forza, Riscatto & Determinazione",
     "lyricsQuote": "Cammina avanti a testa alta, impara ad essere un vero uomo... Da questo giorno tu saprai come si vive quaggiù!",
-    "notes": "L'inno alla crescita, all'allenamento della vita e al riscatto interiore. Il montaggio di Tarzan che impara a sopravvivere nella giungla."
+    "notes": "L'inno alla crescita, all'allenamento della vita e al riscatto interiore. Il montaggio di Tarzan che impara a sopravvivere nella giungla.",
+    "keywords": "phil collins tarzan disney son of man colonna sonora figlio di un uomo crescita diventare uomo coraggio cartoni animati anni 90 philcollins"
   }
 ]

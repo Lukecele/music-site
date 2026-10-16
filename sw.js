@@ -1,13 +1,13 @@
 // sw.js – Service Worker per Sanctuary | Il Mio Rifugio Musicale PWA
 // Strategia: Network-First per freschezza assoluta, con Cache Fallback per offline
 
-const CACHE_NAME = 'sanctuary-music-v2.2';
+const CACHE_NAME = 'sanctuary-music-v2.3';
 const STATIC_ASSETS = [
   '/',
-  '/index.html?v=2.2',
-  '/style.css?v=2.2',
-  '/script.js?v=2.2',
-  '/tracks.json?v=2.2',
+  '/index.html?v=2.3',
+  '/style.css?v=2.3',
+  '/script.js?v=2.3',
+  '/tracks.json?v=2.3',
   '/manifest.json',
   '/assets/favicon.svg',
   '/assets/icon-192.png',
@@ -74,7 +74,7 @@ self.addEventListener('fetch', (event) => {
             return cachedResponse;
           }
           if (event.request.mode === 'navigate') {
-            return caches.match('/index.html?v=1.0.0');
+            return caches.match('/') || caches.match('/index.html?v=2.3');
           }
         });
       })

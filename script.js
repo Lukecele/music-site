@@ -12,21 +12,60 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Registrazione Service Worker per PWA
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/sw.js?v=2.1').catch(() => {
+      navigator.serviceWorker.register('/sw.js?v=2.3').catch(() => {
         // SW opzionale in ambienti locali
       });
     });
   }
 
-  // Caricamento Dati Tracce
-  let tracks = [];
-  try {
-    const res = await fetch('tracks.json');
-    tracks = await res.json();
-  } catch (err) {
-    console.error('Errore nel caricamento di tracks.json:', err);
-    return;
+  // Parse tracce direttamente dal DOM per reattività immediata e immunità da errori di rete
+  function parseTracksFromDOM() {
+    const cards = document.querySelectorAll('.track-card');
+    const list = [];
+    cards.forEach((card) => {
+      const id = card.dataset.id;
+      if (!id) return;
+      const title = card.querySelector('.track-title')?.textContent.trim() || card.dataset.title || '';
+      const artist = card.querySelector('.track-artist')?.textContent.trim() || card.dataset.artist || '';
+      const quote = card.querySelector('.track-quote')?.textContent.replace(/^[«\s]+|[»\s]+$/g, '').trim() || card.dataset.lyrics || '';
+      const catLabel = card.querySelector('.badge-cat')?.textContent.trim() || card.dataset.category || '';
+      const year = card.querySelector('.track-year-badge')?.textContent.trim() || '';
+      const vibe = card.querySelector('.badge-vibe')?.textContent.trim() || '';
+      const extLink = card.querySelector('a.btn-yt-ext')?.href || '';
+      const ytIdMatch = extLink.match(/v=([a-zA-Z0-9_\-]+)/);
+      const ytImgMatch = card.querySelector('img')?.src.match(/vi\/([a-zA-Z0-9_\-]+)\//);
+      const youtubeId = ytIdMatch ? ytIdMatch[1] : (ytImgMatch ? ytImgMatch[1] : '');
+
+      list.push({
+        id,
+        title,
+        artist,
+        category: card.dataset.category || '',
+        categoryLabel: catLabel,
+        youtubeId,
+        year,
+        vibe,
+        lyricsQuote: quote,
+        keywords: card.dataset.keywords || ''
+      });
+    });
+    return list;
   }
+
+  // Inizializzazione immediata da DOM (garantisce reattività al 100% fin dal primo frame)
+  let tracks = parseTracksFromDOM();
+
+  // Caricamento asincrono di tracks.json per arricchimento/aggiornamento
+  fetch('tracks.json?v=2.3')
+    .then(res => res.json())
+    .then(data => {
+      if (Array.isArray(data) && data.length > 0) {
+        tracks = data;
+      }
+    })
+    .catch(err => {
+      console.warn('Uso catalogo DOM locale:', err);
+    });
 
   // Stato Globale
   let currentTrackIndex = 0;
@@ -161,9 +200,44 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   function playTrackById(trackId, options = {}) {
-    const idx = tracks.findIndex(t => t.id === trackId);
+    let idx = tracks.findIndex(t => t.id === trackId);
+    if (idx === -1) {
+      // Fallback DOM se la traccia non è ancora nella memoria
+      const card = document.getElementById('card-' + trackId) || document.querySelector(`.track-card[data-id="${trackId}"]`);
+      if (card) {
+        const title = card.querySelector('.track-title')?.textContent.trim() || card.dataset.title || '';
+        const artist = card.querySelector('.track-artist')?.textContent.trim() || card.dataset.artist || '';
+        const quote = card.querySelector('.track-quote')?.textContent.replace(/^[«\s]+|[»\s]+$/g, '').trim() || card.dataset.lyrics || '';
+        const catLabel = card.querySelector('.badge-cat')?.textContent.trim() || card.dataset.category || '';
+        const year = card.querySelector('.track-year-badge')?.textContent.trim() || '';
+        const vibe = card.querySelector('.badge-vibe')?.textContent.trim() || '';
+        const extLink = card.querySelector('a.btn-yt-ext')?.href || '';
+        const ytIdMatch = extLink.match(/v=([a-zA-Z0-9_\-]+)/);
+        const ytImgMatch = card.querySelector('img')?.src.match(/vi\/([a-zA-Z0-9_\-]+)\//);
+        const youtubeId = ytIdMatch ? ytIdMatch[1] : (ytImgMatch ? ytImgMatch[1] : '');
+
+        const fallbackTrack = {
+          id: trackId,
+          title,
+          artist,
+          lyricsQuote: quote,
+          category: card.dataset.category || '',
+          categoryLabel: catLabel,
+          year,
+          vibe,
+          youtubeId,
+          keywords: card.dataset.keywords || ''
+        };
+        tracks.push(fallbackTrack);
+        idx = tracks.length - 1;
+      }
+    }
+
     if (idx !== -1) {
       playTrackByIndex(idx, { autoplay: true, ...options });
+    } else {
+      console.warn('Track non trovata:', trackId);
+      showToast('Impossibile riprodurre il brano richiesto');
     }
   }
 
@@ -273,25 +347,60 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   // ==========================================================================
-  // FILTRI & RICERCA IN TEMPO REALE
+  // FILTRI & RICERCA IN TEMPO REALE (Globale con Normalizzazione Avanzata)
   // ==========================================================================
 
+  function normalizeSearchText(str) {
+    if (!str) return '';
+    return str
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .trim();
+  }
+
+  function stripPunctuation(str) {
+    return normalizeSearchText(str).replace(/[^a-z0-9]/g, '');
+  }
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/[&<>"']/g, (m) => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#039;'
+    })[m]);
+  }
+
   function applyFiltersAndSearch() {
-    const query = trackSearchInput ? trackSearchInput.value.trim().toLowerCase() : '';
+    const rawQuery = trackSearchInput ? trackSearchInput.value.trim() : '';
+    const isSearching = rawQuery.length > 0;
+    const qNorm = normalizeSearchText(rawQuery);
+    const qClean = stripPunctuation(rawQuery);
+    const qTokens = qNorm.split(/\s+/).filter(t => t.length > 0);
+
     let visibleCount = 0;
 
     trackCards.forEach((card) => {
-      const category = card.dataset.category;
+      const category = card.dataset.category || '';
       const title = card.dataset.title || '';
       const artist = card.dataset.artist || '';
       const lyrics = card.dataset.lyrics || '';
+      const keywords = card.dataset.keywords || '';
 
-      const matchesFilter = (activeFilter === 'all' || category === activeFilter);
-      const matchesSearch = query === '' || 
-        title.includes(query) || 
-        artist.includes(query) || 
-        lyrics.includes(query) ||
-        category.includes(query);
+      // Se l'utente digita nell'input di ricerca, la ricerca è GLOBALE su tutte le 52 tracce
+      const matchesFilter = isSearching ? true : (activeFilter === 'all' || category === activeFilter);
+
+      // Normalizzazione per ricerche flessibili (accenti, spazi, trattini, punteggiatura)
+      const cardTextNorm = normalizeSearchText(`${title} ${artist} ${lyrics} ${category} ${keywords}`);
+      const cardTextClean = stripPunctuation(`${title} ${artist} ${lyrics} ${category} ${keywords}`);
+
+      const matchesSearch = !isSearching ||
+        cardTextNorm.includes(qNorm) ||
+        (qClean.length >= 3 && cardTextClean.includes(qClean)) ||
+        (qTokens.length > 1 && qTokens.every(tok => cardTextNorm.includes(tok) || (tok.length >= 3 && cardTextClean.includes(stripPunctuation(tok)))));
 
       if (matchesFilter && matchesSearch) {
         card.classList.remove('hidden');
@@ -302,7 +411,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     if (searchCountFeedback) {
-      searchCountFeedback.textContent = `Mostrati ${visibleCount} di ${tracks.length} brani`;
+      if (isSearching) {
+        searchCountFeedback.innerHTML = `Risultati per "<strong>${escapeHtml(rawQuery)}</strong>": ${visibleCount} di ${trackCards.length} brani`;
+      } else {
+        searchCountFeedback.textContent = `Mostrati ${visibleCount} di ${trackCards.length} brani`;
+      }
     }
 
     if (emptySearchState) {
@@ -314,7 +427,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     if (clearSearchBtn) {
-      if (query.length > 0) {
+      if (isSearching) {
         clearSearchBtn.classList.remove('hidden');
       } else {
         clearSearchBtn.classList.add('hidden');
@@ -508,6 +621,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   function switchCategory(cat, options = {}) {
     activeFilter = cat;
+
+    // Resetta eventuale ricerca testuale per mostrare immediatamente l'intera categoria selezionata
+    if (trackSearchInput && trackSearchInput.value !== '') {
+      trackSearchInput.value = '';
+    }
 
     // Aggiorna tab del catalogo
     filterTabs.forEach((tab) => {
