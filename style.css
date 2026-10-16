@@ -1928,7 +1928,7 @@ body {
     gap: 0.4rem;
   }
 
-  .btn-header {
+  .btn-header:not(.btn-mobile-menu) {
     width: 38px;
     height: 38px;
     padding: 0;
@@ -1939,8 +1939,23 @@ body {
     flex-shrink: 0;
   }
 
-  .btn-header span {
+  .btn-header:not(.btn-mobile-menu) span {
     display: none !important;
+  }
+
+  .btn-mobile-menu {
+    height: 38px;
+    padding: 0 0.85rem;
+    border-radius: var(--radius-full);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.82rem;
+    font-weight: 700;
+    background: rgba(245, 158, 11, 0.18);
+    border: 1px solid rgba(245, 158, 11, 0.45);
+    color: #fff;
+    cursor: pointer;
   }
 
   .hero-stage-section {

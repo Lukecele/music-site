@@ -329,10 +329,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   filterTabs.forEach((tab) => {
     tab.addEventListener('click', () => {
-      filterTabs.forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      activeFilter = tab.dataset.filter;
-      applyFiltersAndSearch();
+      switchCategory(tab.dataset.filter, { scroll: false });
     });
   });
 
@@ -351,12 +348,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (resetFiltersBtn) {
     resetFiltersBtn.addEventListener('click', () => {
       if (trackSearchInput) trackSearchInput.value = '';
-      activeFilter = 'all';
-      filterTabs.forEach(t => {
-        if (t.dataset.filter === 'all') t.classList.add('active');
-        else t.classList.remove('active');
-      });
-      applyFiltersAndSearch();
+      switchCategory('all', { scroll: false });
     });
   }
 
@@ -589,7 +581,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   // CATEGORIA NAVIGATION (DESKTOP + MOBILE DRAWER + FOOTER)
   // ==========================================================================
 
-  function switchCategory(cat) {
+  function switchCategory(cat, options = {}) {
     activeFilter = cat;
 
     // Aggiorna tab del catalogo
@@ -622,16 +614,18 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Applica filtro al grid
     applyFiltersAndSearch();
 
-    // Scroll verso la sezione rilevante
-    if (cat === 'rocky') {
-      const el = document.getElementById('rocky-camp');
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
-    } else if (cat === 'cremonini') {
-      const el = document.getElementById('cremonini-sanctuary');
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
-    } else {
-      const el = document.getElementById('esplora');
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    // Scroll verso la sezione rilevante solo se richiesto (default true)
+    if (options.scroll !== false) {
+      if (cat === 'rocky') {
+        const el = document.getElementById('rocky-camp');
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      } else if (cat === 'cremonini') {
+        const el = document.getElementById('cremonini-sanctuary');
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        const el = document.getElementById('esplora');
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }
     }
   }
 
