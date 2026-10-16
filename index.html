@@ -3097,6 +3097,7 @@
   <!-- Cookie & Privacy Consent Banner -->
   <aside class="cookie-banner" id="cookieBanner" role="region" aria-label="Informativa Cookie e Privacy" style="display: none;">
     <div class="cookie-banner-inner">
+      <button class="cookie-close-btn" id="closeCookieBannerBtn" aria-label="Chiudi banner privacy"><i data-lucide="x"></i></button>
       <div class="cookie-banner-content">
         <div class="cookie-icon-box">
           <i data-lucide="shield-check"></i>
@@ -3122,7 +3123,7 @@
   </aside>
 
   <!-- Legal & Privacy Modal -->
-  <div class="modal-backdrop" id="legalModal" aria-hidden="true">
+  <div class="modal-backdrop hidden" id="legalModal" aria-hidden="true" style="display: none;">
     <div class="modal-card legal-modal-card" role="dialog" aria-modal="true" aria-labelledby="legalModalTitle">
       <div class="modal-header">
         <div class="modal-header-icon legal-icon-box">

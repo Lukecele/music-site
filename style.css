@@ -1929,8 +1929,8 @@ body {
   }
 
   .btn-header:not(.btn-mobile-menu) {
-    width: 38px;
-    height: 38px;
+    width: 34px;
+    height: 34px;
     padding: 0;
     border-radius: 50%;
     display: inline-flex;
@@ -1944,18 +1944,19 @@ body {
   }
 
   .btn-mobile-menu {
-    height: 38px;
-    padding: 0 0.85rem;
+    height: 34px;
+    padding: 0 0.65rem;
     border-radius: var(--radius-full);
     display: inline-flex;
     align-items: center;
-    gap: 0.4rem;
-    font-size: 0.82rem;
+    gap: 0.35rem;
+    font-size: 0.78rem;
     font-weight: 700;
     background: rgba(245, 158, 11, 0.18);
     border: 1px solid rgba(245, 158, 11, 0.45);
     color: #fff;
     cursor: pointer;
+    flex-shrink: 0;
   }
 
   .hero-stage-section {
@@ -2875,3 +2876,66 @@ body {
   margin: 0;
 }
 
+
+/* Modal Backdrop Defensive Display Rules */
+.modal-backdrop.hidden,
+.modal-backdrop[aria-hidden="true"],
+.hidden {
+  display: none !important;
+}
+
+.cookie-banner {
+  position: relative;
+}
+
+.cookie-close-btn {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  z-index: 5;
+}
+
+.cookie-close-btn:hover {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.4);
+  color: #fff;
+}
+
+.cookie-close-btn i {
+  width: 14px;
+  height: 14px;
+}
+
+@media (max-width: 380px) {
+  .brand-title {
+    font-size: 0.95rem !important;
+    letter-spacing: 0.5px !important;
+  }
+  .header-actions {
+    gap: 0.25rem !important;
+  }
+  .btn-header:not(.btn-mobile-menu) {
+    width: 32px !important;
+    height: 32px !important;
+  }
+  .btn-mobile-menu {
+    width: 32px !important;
+    height: 32px !important;
+    padding: 0 !important;
+    justify-content: center !important;
+  }
+  .btn-mobile-menu span {
+    display: none !important;
+  }
+}

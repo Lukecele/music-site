@@ -730,16 +730,22 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
+  const closeCookieBannerBtn = document.getElementById('closeCookieBannerBtn');
+
+  if (closeCookieBannerBtn) {
+    closeCookieBannerBtn.addEventListener('click', () => {
+      localStorage.setItem(COOKIE_CONSENT_KEY, 'dismissed');
+      if (cookieBanner) {
+        cookieBanner.style.display = 'none';
+      }
+    });
+  }
+
   if (acceptCookieBtn) {
     acceptCookieBtn.addEventListener('click', () => {
       localStorage.setItem(COOKIE_CONSENT_KEY, 'accepted');
       if (cookieBanner) {
-        cookieBanner.style.animation = 'none';
-        cookieBanner.style.opacity = '0';
-        cookieBanner.style.transition = 'opacity 0.3s ease';
-        setTimeout(() => {
-          cookieBanner.style.display = 'none';
-        }, 300);
+        cookieBanner.style.display = 'none';
       }
       showToast('Preferenze privacy memorizzate.');
     });
@@ -761,18 +767,25 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   function openLegalModal() {
     if (!legalModal) return;
+    legalModal.classList.remove('hidden');
     legalModal.classList.add('active');
     legalModal.setAttribute('aria-hidden', 'false');
+    legalModal.style.display = 'flex';
     document.body.style.overflow = 'hidden';
     if (window.lucide) lucide.createIcons();
   }
 
   function closeLegalModal() {
     if (!legalModal) return;
+    legalModal.classList.add('hidden');
     legalModal.classList.remove('active');
     legalModal.setAttribute('aria-hidden', 'true');
+    legalModal.style.display = 'none';
     document.body.style.overflow = '';
   }
+
+  // Assicurati che legalModal sia chiuso di default
+  closeLegalModal();
 
   if (openLegalModalBtn) openLegalModalBtn.addEventListener('click', openLegalModal);
   if (closeLegalModalBtn) closeLegalModalBtn.addEventListener('click', closeLegalModal);
