@@ -19,6 +19,8 @@
   --accent-rose: #f43f5e;
   --accent-gold: #f59e0b;
   --accent-gold-light: #fef08a;
+  --gold-primary: #f59e0b;
+  --gold-glow: rgba(245, 158, 11, 0.5);
   --accent-crimson: #ef4444;
   --accent-emerald: #10b981;
 
@@ -2247,11 +2249,17 @@ body {
 }
 
 .nav-cat-btn.active {
-  color: #030712;
-  background: var(--gold-primary);
-  border-color: var(--gold-glow);
-  font-weight: 700;
-  box-shadow: 0 0 14px rgba(245, 158, 11, 0.35);
+  color: #030712 !important;
+  background: linear-gradient(135deg, #fde047 0%, #f59e0b 100%) !important;
+  border-color: #fef08a !important;
+  font-weight: 800 !important;
+  box-shadow: 0 0 16px rgba(245, 158, 11, 0.45) !important;
+}
+
+.nav-cat-btn.active span,
+.nav-cat-btn.active i {
+  color: #030712 !important;
+  font-weight: 800 !important;
 }
 
 .btn-mobile-menu {

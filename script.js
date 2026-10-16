@@ -446,36 +446,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   });
 
-  // ==========================================================================
-  // STICKY MINI PLAYER (Persistente allo scroll)
-  // ==========================================================================
-
-  window.addEventListener('scroll', () => {
-    const stageRect = stageCard.getBoundingClientRect();
-    if (stageRect.bottom < 50) {
-      stickyMiniPlayer.classList.remove('hidden');
-    } else {
-      stickyMiniPlayer.classList.add('hidden');
-    }
-  }, { passive: true });
-
-  if (miniPrevBtn) {
-    miniPrevBtn.addEventListener('click', () => {
-      playTrackByIndex(currentTrackIndex - 1, { autoplay: true, notifyToast: true });
-    });
-  }
-
-  if (miniNextBtn) {
-    miniNextBtn.addEventListener('click', () => {
-      playTrackByIndex(currentTrackIndex + 1, { autoplay: true, notifyToast: true });
-    });
-  }
-
-  if (miniJumpToStageBtn) {
-    miniJumpToStageBtn.addEventListener('click', () => {
-      stageCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    });
-  }
 
   // ==========================================================================
   // MODALE TIMER DI TRANQUILLITÀ / SPEGNIMENTO AUTOMATICO
