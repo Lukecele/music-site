@@ -1,7 +1,7 @@
 // sw.js – Service Worker per Sanctuary | Il Mio Rifugio Musicale PWA
 // Strategia: Network-First per freschezza assoluta, con Cache Fallback per offline
 
-const CACHE_NAME = 'sanctuary-music-v1';
+const CACHE_NAME = 'sanctuary-music-v2';
 const STATIC_ASSETS = [
   '/',
   '/index.html?v=1.0.0',

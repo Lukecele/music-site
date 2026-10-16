@@ -26,4 +26,4 @@ Portale musicale interattivo, sereno ed epico, pensato per risentire le proprie 
   - Open Graph e Twitter Cards in alta definizione (1200×630).
 
 ## 🚀 Live Demo
-Deploy su Vercel: [https://sanctuary-music.vercel.app](https://sanctuary-music.vercel.app)
+Deploy su Vercel: [https://music-site-ten-green.vercel.app](https://music-site-ten-green.vercel.app)

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://sanctuary-music.vercel.app/sitemap.xml
+Sitemap: https://music-site-ten-green.vercel.app/sitemap.xml
