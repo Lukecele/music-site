@@ -31,11 +31,19 @@ Tutte le visualizzazioni e gli introiti pubblicitari generati dalla riproduzione
 ---
 
 ## 4. Procedura di Rimozione (Take-Down Notice)
-I titolari del copyright o i loro legali rappresentanti che ritengano che uno specifico video o contenuto incorporato violi i propri diritti possono richiederne la rimozione immediata dal catalogo di Sanctuary:
-- Inviando una segnalazione con i dettagli dell'opera e il relativo URL all'amministratore del repository GitHub: [https://github.com/Lukecele/music-site/issues](https://github.com/Lukecele/music-site/issues).
+I titolari del copyright o i loro legali rappresentanti che ritengano che uno specifico video o contenuto incorporato non debba comparire su Sanctuary possono richiederne la rimozione immediata:
+- Inviando una segnalazione con i dettagli dell'opera e il relativo URL all'amministratore del repository GitHub: [https://github.com/Lukecele/music-site/issues](https://github.com/Lukecele/music-site/issues). Il contenuto verrà rimosso entro 24 ore.
 - Disattivando l'opzione di incorporamento esterno (*allow embedding*) direttamente sul proprio canale YouTube; il lettore di Sanctuary cesserà istantaneamente e automaticamente di visualizzare il contenuto senza necessità di modifiche al codice.
 
 ---
 
-## 5. Esclusione di Responsabilità
+## 5. Licenza di Utilizzo del Software (MIT), Assenza di Rivendicazioni & No-Profit
+- **Licenza Open Source per il Codice (MIT)**: Il codice sorgente dell'interfaccia grafica e dell'applicazione web (HTML, CSS, JavaScript) è distribuito gratuitamente sotto i termini della [Licenza MIT](LICENSE). Chiunque è libero di studiare, consultare e riutilizzare il codice sorgente per scopi legittimi e non commerciali.
+- **Assoluta Assenza di Rivendicazione di Copyright Musicale**: Sanctuary, i suoi sviluppatori e manutentori **non rivendicano, non possiedono e non intendono in alcun modo rivendicare alcun diritto d'autore, copyright o proprietà intellettuale** su alcuno dei brani musicali, testi, registrazioni master, marchi commerciali o audiovisivi presenti o riprodotti nella piattaforma. Tutti i diritti spettano inderogabilmente ed esclusivamente ai rispettivi cantautori, compositori, interpreti, editori e case discografiche originarie.
+- **Natura 100% Gratuita e No-Profit**: Il servizio è erogato in forma completamente gratuita, senza quote di iscrizione, abbonamenti, pubblicità a pagamento, sponsorizzazioni o fini di lucro di alcun genere.
+
+---
+
+## 6. Esclusione di Responsabilità
 Il software è fornito "così com'è", senza garanzie di alcun tipo per quanto concerne la disponibilità ininterrotta dei video terzi incorporati o la stabilità delle connessioni alla rete YouTube.
+

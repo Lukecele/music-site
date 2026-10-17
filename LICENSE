@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2026 Sanctuary Music Vault
+Copyright (c) 2026 Sanctuary | Il Mio Rifugio Musicale
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -12,17 +12,46 @@ furnished to do so, subject to the following conditions:
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
 
-DISCLAIMER REGARDING THIRD-PARTY AUDIO/VIDEO CONTENT:
-The underlying musical compositions, master sound recordings, lyrics, artist names,
-movie titles, cover artwork, and trademarks referenced or embedded within the
-Software belong exclusively to their respective composers, recording artists,
-publishing companies, film studios, and record labels. 
+================================================================================
+CLAUSOLA DI UTILIZZO GRATUITO, NO-PROFIT & ESCLUSIONE DEI DIRITTI D'AUTORE MUSICALI
+NON-COMMERCIAL, FREE USE & THIRD-PARTY INTELLECTUAL PROPERTY DISCLAIMER
+================================================================================
 
-This repository and web application DO NOT host, store, download, or distribute
-any copyrighted audio or video files. All playback functionality is achieved via
-the official, legitimate YouTube Embedded Player API provided by Google LLC / YouTube LLC,
-in full compliance with YouTube Terms of Service.
+1. LICENZA LIMITATA AL CODICE SORGENTE (SOURCE CODE ONLY):
+La presente licenza MIT si applica unicamente ed esclusivamente all'architettura software,
+al codice sorgente dell'interfaccia utente (HTML5, CSS3, JavaScript) e ai file di
+configurazione del repository.
 
+2. ASSENZA TOTALE DI RIVENDICAZIONE SULLE OPERE MUSICALI E AUDIOVISIVE:
+Il progetto Sanctuary, il suo autore e i manutentori NON RIVENDICANO, NON DETENGONO
+E NON INTENDONO IN ALCUN MODO RIVENDICARE alcun diritto d'autore, copyright, proprietà
+intellettuale, brevetto, diritto di sincronizzazione, marchio o diritto di sfruttamento
+economico su alcuno dei brani musicali, registrazioni fonografiche (master), composizioni,
+testi delle canzoni, colonne sonore, spezzoni video, copertine o locandine citati,
+mostrati o incorporati all'interno dell'applicazione.
+
+3. TITOLARITÀ ESCLUSIVA DEI RISPETTIVI AUTORI, INTERPRETI ED EDITORI ORIGINARI:
+Tutti i diritti d'autore, diritti connessi, marchi commerciali, master discografici e
+titolarità intellettuali appartengono inderogabilmente ed esclusivamente ai rispettivi
+autori, cantautori, compositori, interpreti, case discografiche (tra cui Universal Music
+Group, Sony Music Entertainment, Warner Music Group, Carosello Records e relative etichette),
+studi cinematografici ed editori musicali originari.
+
+4. FINALITÀ AMATORIALE, RICREATIVA & 100% NO-PROFIT:
+Il presente progetto è sviluppato e reso disponibile a titolo completamente gratuito,
+senza alcuna finalità di lucro, commerciale o promozionale. Non sono presenti banner
+pubblicitari a pagamento, affiliazioni, abbonamenti o forme di monetizzazione diretta o indiretta.
+
+5. NESSUN HOSTING DI FILE AUDIO/VIDEO PROPRIETARI (YOUTUBE EMBED ONLY):
+Nessun file audio o video proprietario (MP3, MP4, WAV, FLAC, ecc.) risiede, viene scaricato
+o viene archiviato sui server del progetto. Tutti i contenuti audiovisivi sono riprodotti
+esclusivamente tramite l'incorporamento ufficiale (YouTube Embedded Player API di Google LLC),
+nel pieno rispetto della Legge 22 aprile 1941 n. 633, della Direttiva Europea 2001/29/CE e della
+giurisprudenza vincolante della Corte di Giustizia dell'Unione Europea (Sentenza Svensson C-466/12
+e Ordinanza BestWater C-348/13). Qualsiasi provento derivante da visualizzazioni o monetizzazione
+Content ID spetta integralmente ed esclusivamente ai titolari originari dei diritti.
+
+================================================================================
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE

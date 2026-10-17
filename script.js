@@ -797,8 +797,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   const closeLegalModalBtn = document.getElementById('closeLegalModalBtn');
   const confirmLegalModalBtn = document.getElementById('confirmLegalModalBtn');
   const footerOpenLegalBtn = document.getElementById('footerOpenLegalBtn');
+  const footerOpenLicenseBtn = document.getElementById('footerOpenLicenseBtn');
   const footerOpenPrivacyBtn = document.getElementById('footerOpenPrivacyBtn');
   const footerOpenNoticeBtn = document.getElementById('footerOpenNoticeBtn');
+  const openLicenseDrawerBtn = document.getElementById('openLicenseDrawerBtn');
 
   function openLegalModal() {
     if (!legalModal) return;
@@ -837,6 +839,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   }
 
+  if (openLicenseDrawerBtn) {
+    openLicenseDrawerBtn.addEventListener('click', () => {
+      closeMobileDrawer();
+      openLegalModal();
+    });
+  }
+
   if (openPrivacyDrawerBtn) {
     openPrivacyDrawerBtn.addEventListener('click', () => {
       closeMobileDrawer();
@@ -845,6 +854,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   if (footerOpenLegalBtn) footerOpenLegalBtn.addEventListener('click', openLegalModal);
+  if (footerOpenLicenseBtn) footerOpenLicenseBtn.addEventListener('click', openLegalModal);
   if (footerOpenPrivacyBtn) footerOpenPrivacyBtn.addEventListener('click', openLegalModal);
   if (footerOpenNoticeBtn) footerOpenNoticeBtn.addEventListener('click', openLegalModal);
 

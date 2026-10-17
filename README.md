@@ -1,5 +1,10 @@
 # Sanctuary | Il Mio Rifugio Musicale 🎧
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Status: 100% No-Profit](https://img.shields.io/badge/No--Profit-Free_Use-blue.svg)](LEGAL.md)
+[![GDPR: 100% Compliant](https://img.shields.io/badge/GDPR-100%25_Compliant-success.svg)](PRIVACY.md)
+[![YouTube: Official Embed Only](https://img.shields.io/badge/YouTube-IFrame_Safe-red.svg)](LEGAL.md)
+
 > *«Quando le parole mancano, la musica prende il sopravvento.»*
 
 Portale musicale personale, interattivo, sereno ed epico, progettato con architettura mobile-first per risentire le proprie canzoni del cuore, trovare pace interiore o caricarsi al massimo durante l'allenamento.
@@ -30,17 +35,20 @@ Portale musicale personale, interattivo, sereno ed epico, progettato con archite
   - Schema.org `MusicPlaylist` e `MusicRecording` JSON-LD per tutti i 52 brani.
   - Open Graph e Twitter Cards in alta definizione (1200×630).
 
-## ⚖️ Conformità Legale, Diritto d'Autore & Privacy (GDPR)
+## ⚖️ Conformità Legale, Diritto d'Autore & Licenza Gratuita (No-Profit)
 
 Il progetto è sviluppato nel rigoroso rispetto della normativa italiana ed europea in materia di proprietà intellettuale e protezione dei dati personali:
 
-- **Diritti d'Autore & Copyright (Legge 633/1941 & Direttiva UE 2001/29/CE)**:
-  Tutti i contenuti multimediali appartengono ai legittimi titolari del copyright. La riproduzione avviene unicamente mediante incorporamento legittimo tramite YouTube Embedded Player API, senza memorizzazione o streaming proprietario da server, in conformità alla giurisprudenza vincolante della Corte di Giustizia dell'Unione Europea (**Sentenza Svensson C-466/12** e **Ordinanza BestWater C-348/13**). Per i dettagli completi, consultare [LEGAL.md](LEGAL.md).
-- **Privacy & Cookie Policy (GDPR - Regolamento UE 2016/679)**:
+- **Licenza di Utilizzo Gratuito del Codice (MIT License)**:  
+  Il codice sorgente dell'interfaccia utente (HTML5, CSS3, JavaScript) è distribuito gratuitamente sotto [Licenza MIT](LICENSE). Chiunque può consultare, studiare e riutilizzare il codice per finalità lecite e non commerciali.
+- **Assoluta Assenza di Rivendicazione di Copyright Musicale (100% No-Profit)**:  
+  Sanctuary e il suo autore **non rivendicano alcun diritto d'autore, copyright o proprietà intellettuale** su brani musicali, registrazioni master, testi, marchi o video riprodotti. Tutti i diritti spettano inderogabilmente ed esclusivamente ai rispettivi autori, interpreti, compositori, case discografiche ed editori originari. Il portale ha finalità puramente personali, culturali e ricreative, senza alcun fine di lucro o monetizzazione.
+- **Incorporamento Legittimo tramite YouTube API (Legge 633/1941 & Direttiva UE 2001/29/CE)**:  
+  Nessun file audio o video risiede sui nostri server. La riproduzione avviene unicamente mediante YouTube Embedded Player API, in conformità alla giurisprudenza vincolante della Corte di Giustizia dell'Unione Europea (**Sentenza Svensson C-466/12** e **Ordinanza BestWater C-348/13**). Gli introiti pubblicitari e i diritti Content ID spettano interamente agli aventi diritto originari. Per i dettagli completi, consultare [LEGAL.md](LEGAL.md).
+- **Privacy & Cookie Policy (GDPR - Regolamento UE 2016/679)**:  
   Nessun dato personale raccolto, zero tracciamento o cookie di profilazione. L'applicazione utilizza unicamente la memoria locale del browser (*LocalStorage*) per salvare le preferenze tecniche. Per i dettagli completi, consultare [PRIVACY.md](PRIVACY.md).
-- **Licenza Software**:
-  Il codice sorgente dell'interfaccia utente è distribuito sotto licenza MIT. Per i dettagli, consultare [LICENSE](LICENSE).
 
 ## 🚀 Live Demo
 - **Sito Web Live**: [https://music-site-ten-green.vercel.app](https://music-site-ten-green.vercel.app)
 - **Repository GitHub**: [https://github.com/Lukecele/music-site](https://github.com/Lukecele/music-site)
+- **Licenza Software**: [MIT License (Gratuita & No-Profit)](LICENSE)
