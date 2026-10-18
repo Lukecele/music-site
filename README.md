@@ -7,6 +7,9 @@
 
 > *«Quando le parole mancano, la musica prende il sopravvento.»*
 
+> [!TIP]
+> **Ti piace questo rifugio musicale?** Se apprezzi la selezione o il codice open-source di questo portale, lascia una ⭐ **Stella** in alto a destra su GitHub per sostenerne il progetto e i futuri aggiornamenti!
+
 Portale musicale personale, interattivo, sereno ed epico, progettato con architettura mobile-first per risentire le proprie canzoni del cuore, trovare pace interiore o caricarsi al massimo durante l'allenamento.
 
 ## 🎵 Caratteristiche Principali
