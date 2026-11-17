@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Registrazione Service Worker per PWA
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/sw.js?v=2.3').catch(() => {
+      navigator.serviceWorker.register('/sw.js?v=2.4').catch(() => {
         // SW opzionale in ambienti locali
       });
     });
@@ -56,11 +56,12 @@ document.addEventListener('DOMContentLoaded', async () => {
   let tracks = parseTracksFromDOM();
 
   // Caricamento asincrono di tracks.json per arricchimento/aggiornamento
-  fetch('tracks.json?v=2.3')
+  fetch('tracks.json?v=2.4')
     .then(res => res.json())
     .then(data => {
       if (Array.isArray(data) && data.length > 0) {
         tracks = data;
+        refillShuffleQueue(currentTrackIndex);
       }
     })
     .catch(err => {
@@ -73,6 +74,19 @@ document.addEventListener('DOMContentLoaded', async () => {
   let sleepTimerInterval = null;
   let sleepSecondsLeft = 0;
 
+  // Stato Riproduzione Casuale Continua (Loop Random Mode)
+  const LOOP_RANDOM_STORAGE_KEY = 'sanctuary_loop_random_mode';
+  // Attivo di default (true) come richiesto
+  let isRandomLoopActive = localStorage.getItem(LOOP_RANDOM_STORAGE_KEY) !== 'false';
+  let shuffleQueue = [];
+  let playbackHistory = [];
+  let lastEndedTimestamp = 0;
+  let hasUserStartedPlayback = false;
+
+  // YouTube IFrame API Player
+  let ytPlayer = null;
+  let isPlayerReady = false;
+
   // Riferimenti DOM Principali
   const mainVideoFrame = document.getElementById('mainVideoFrame');
   const stageSongTitle = document.getElementById('stageSongTitle');
@@ -84,6 +98,14 @@ document.addEventListener('DOMContentLoaded', async () => {
   const nowPlayingStatus = document.getElementById('nowPlayingStatus');
   const stageCard = document.getElementById('stageCard');
   const openYtStageLink = document.getElementById('openYtStageLink');
+  const stageSoundwave = document.getElementById('stageSoundwave');
+
+  // Pulsanti Loop & Modalità Casuale Continua
+  const loopRandomToggleBtn = document.getElementById('loopRandomToggleBtn');
+  const loopRandomBtnLabel = document.getElementById('loopRandomBtnLabel');
+  const loopStatusPill = document.getElementById('loopStatusPill');
+  const loopStatusPillText = document.getElementById('loopStatusPillText');
+  const startContinuousLoopBtn = document.getElementById('startContinuousLoopBtn');
 
   // Pulsanti speciali Hero
   const mulanChorusHeroBtn = document.getElementById('mulanChorusHeroBtn');
@@ -136,18 +158,221 @@ document.addEventListener('DOMContentLoaded', async () => {
   const backToTopBtn = document.getElementById('backToTopBtn');
 
   // ==========================================================================
-  // FUNZIONI AUDIO PLAYER & RIPRODUZIONE
+  // FUNZIONI AUDIO PLAYER, CODA SHUFFLE & RIPRODUZIONE CONTINUA
   // ==========================================================================
+
+  // Riempie la coda con tutti i 52 brani mescolati (Fisher-Yates) evitando ripetizioni immediate
+  function refillShuffleQueue(excludeIndex = -1) {
+    if (!tracks || tracks.length === 0) return;
+    const indices = [];
+    for (let i = 0; i < tracks.length; i++) {
+      if (i !== excludeIndex) {
+        indices.push(i);
+      }
+    }
+    // Fisher-Yates shuffle
+    for (let i = indices.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [indices[i], indices[j]] = [indices[j], indices[i]];
+    }
+    // Se escluso, inseriscilo in fondo alla coda così da essere riprodotto per ultimo
+    if (excludeIndex >= 0 && tracks.length > 1) {
+      indices.push(excludeIndex);
+    }
+    shuffleQueue = indices;
+  }
+
+  // Preleva il prossimo brano dalla coda casuale di tutte le canzoni
+  function getNextRandomTrackIndex() {
+    if (!tracks || tracks.length === 0) return 0;
+    if (tracks.length === 1) return 0;
+
+    if (!shuffleQueue || shuffleQueue.length === 0) {
+      refillShuffleQueue(currentTrackIndex);
+    }
+
+    let nextIdx = shuffleQueue.shift();
+    if (nextIdx === currentTrackIndex && tracks.length > 1) {
+      if (shuffleQueue.length > 0) {
+        const alt = shuffleQueue.shift();
+        shuffleQueue.push(nextIdx);
+        nextIdx = alt;
+      } else {
+        refillShuffleQueue(currentTrackIndex);
+        nextIdx = shuffleQueue.shift();
+      }
+    }
+    return nextIdx;
+  }
+
+  // Aggiorna indicatori visivi della Modalità Loop Casuale Continuo
+  function updateLoopUI() {
+    if (loopRandomToggleBtn) {
+      if (isRandomLoopActive) {
+        loopRandomToggleBtn.classList.add('active');
+        if (loopRandomBtnLabel) loopRandomBtnLabel.textContent = 'Loop: ON';
+        loopRandomToggleBtn.setAttribute('aria-pressed', 'true');
+        loopRandomToggleBtn.title = 'Modalità Loop Casuale ATTIVA: riproduzione continua automatica di tutte le canzoni. Clicca per disattivare.';
+      } else {
+        loopRandomToggleBtn.classList.remove('active');
+        if (loopRandomBtnLabel) loopRandomBtnLabel.textContent = 'Loop: OFF';
+        loopRandomToggleBtn.setAttribute('aria-pressed', 'false');
+        loopRandomToggleBtn.title = 'Modalità Loop Casuale DISATTIVA. Clicca per attivare la riproduzione continua di tutte le canzoni.';
+      }
+    }
+
+    if (loopStatusPill) {
+      if (isRandomLoopActive) {
+        loopStatusPill.classList.add('active');
+        if (loopStatusPillText) loopStatusPillText.textContent = 'Loop Continuo ON';
+        loopStatusPill.title = 'Riproduzione continua casuale attiva: quando un brano finisce, il prossimo parte da solo! Clicca per disattivare.';
+      } else {
+        loopStatusPill.classList.remove('active');
+        if (loopStatusPillText) loopStatusPillText.textContent = 'Loop: Spento';
+        loopStatusPill.title = 'Riproduzione continua disattivata. Clicca per riattivare la musica continua.';
+      }
+    }
+    if (window.lucide) lucide.createIcons();
+  }
+
+  function updateSoundwave(isPlaying) {
+    if (stageSoundwave) {
+      if (isPlaying) {
+        stageSoundwave.classList.remove('paused');
+      } else {
+        stageSoundwave.classList.add('paused');
+      }
+    }
+  }
+
+  // Gestione termine brano: quando un brano finisce, la musica deve continuare da sola!
+  function handleTrackEnded() {
+    const now = Date.now();
+    // Protezione debounce: evita trigger duplicati entro 2 secondi
+    if (now - lastEndedTimestamp < 2000) return;
+    lastEndedTimestamp = now;
+
+    console.log('[Sanctuary] Brano terminato. isRandomLoopActive =', isRandomLoopActive);
+
+    if (isRandomLoopActive) {
+      const nextIdx = getNextRandomTrackIndex();
+      const nextTrack = tracks[nextIdx];
+      if (nextTrack) {
+        showToast(`🎵 Brano completato! Avvio automatico: ${nextTrack.title} – ${nextTrack.artist}`);
+      }
+
+      // Transizione fluida continua per il browser
+      setTimeout(() => {
+        playTrackByIndex(nextIdx, { autoplay: true, notifyToast: false, scrollToPlayer: false });
+      }, 400);
+    } else {
+      updateSoundwave(false);
+      const cur = tracks[currentTrackIndex];
+      nowPlayingStatus.textContent = `Brano terminato: ${cur ? cur.title : ''}. Attiva il Loop Casuale per continuare automaticamente.`;
+    }
+  }
+
+  // Inizializzazione YouTube IFrame Player API
+  function initYouTubePlayer() {
+    if (typeof YT === 'undefined' || !YT.Player) {
+      return;
+    }
+    if (ytPlayer) return;
+
+    try {
+      ytPlayer = new YT.Player('mainVideoFrame', {
+        events: {
+          'onReady': () => {
+            isPlayerReady = true;
+            console.log('[Sanctuary] YouTube IFrame Player API collegato con successo');
+          },
+          'onStateChange': (event) => {
+            // YT.PlayerState: ENDED = 0, PLAYING = 1, PAUSED = 2, BUFFERING = 3, CUED = 5
+            if (event.data === 0) {
+              handleTrackEnded();
+            } else if (event.data === 1) {
+              hasUserStartedPlayback = true;
+              updateSoundwave(true);
+            } else if (event.data === 2) {
+              updateSoundwave(false);
+            }
+          },
+          'onError': (event) => {
+            console.warn('[Sanctuary] Errore riproduzione YouTube Player:', event.data);
+            if (isRandomLoopActive) {
+              showToast('⚠️ Brano non disponibile, passo al successivo in riproduzione continua...');
+              setTimeout(() => {
+                const nextIdx = getNextRandomTrackIndex();
+                playTrackByIndex(nextIdx, { autoplay: true, notifyToast: false });
+              }, 1200);
+            }
+          }
+        }
+      });
+    } catch (err) {
+      console.warn('[Sanctuary] Inizializzazione YT.Player fallita, userò iframe fallback:', err);
+    }
+  }
+
+  // Listener fallback per messaggi postMessage di YouTube
+  window.addEventListener('message', (event) => {
+    if (typeof event.origin === 'string' && !event.origin.includes('youtube.com') && !event.origin.includes('youtube-nocookie.com')) {
+      return;
+    }
+    try {
+      const data = typeof event.data === 'string' ? JSON.parse(event.data) : event.data;
+      if (!data) return;
+
+      const isEnded = (data.event === 'onStateChange' && data.info === 0) ||
+                      (data.info && data.info.playerState === 0);
+      if (isEnded) {
+        handleTrackEnded();
+      } else if ((data.event === 'onStateChange' && data.info === 1) || (data.info && data.info.playerState === 1)) {
+        hasUserStartedPlayback = true;
+        updateSoundwave(true);
+      } else if ((data.event === 'onStateChange' && data.info === 2) || (data.info && data.info.playerState === 2)) {
+        updateSoundwave(false);
+      }
+    } catch (e) {
+      // Ignora messaggi non-JSON
+    }
+  });
+
+  if (window.YT && window.YT.Player) {
+    initYouTubePlayer();
+  } else {
+    window.onYouTubeIframeAPIReady = function() {
+      initYouTubePlayer();
+    };
+  }
 
   function playTrackByIndex(index, options = {}) {
     if (index < 0) index = tracks.length - 1;
     if (index >= tracks.length) index = 0;
 
+    // Registra nello storico per il pulsante "Precedente"
+    if (currentTrackIndex !== index && currentTrackIndex >= 0) {
+      playbackHistory.push(currentTrackIndex);
+      if (playbackHistory.length > 50) playbackHistory.shift();
+    }
+
     currentTrackIndex = index;
     const track = tracks[currentTrackIndex];
+    if (!track) return;
 
-    // URL YouTube con autoplay (se richiesto)
-    let embedUrl = `https://www.youtube-nocookie.com/embed/${track.youtubeId}?enablejsapi=1&rel=0`;
+    hasUserStartedPlayback = true;
+
+    // Rimuovi dal mazzo shuffle corrente per non ripetere fino al completamento del ciclo
+    const inQueueIdx = shuffleQueue.indexOf(currentTrackIndex);
+    if (inQueueIdx !== -1) {
+      shuffleQueue.splice(inQueueIdx, 1);
+    }
+
+    // URL YouTube con parametri di sicurezza, jsapi e autoplay
+    const originParam = (window.location.origin && window.location.origin !== 'null')
+      ? `&origin=${encodeURIComponent(window.location.origin)}`
+      : '';
+    let embedUrl = `https://www.youtube-nocookie.com/embed/${track.youtubeId}?enablejsapi=1&rel=0${originParam}`;
     if (options.autoplay) {
       embedUrl += '&autoplay=1';
     }
@@ -155,7 +380,24 @@ document.addEventListener('DOMContentLoaded', async () => {
       embedUrl += `&start=${options.startSeconds}`;
     }
 
-    mainVideoFrame.src = embedUrl;
+    // Se YT.Player è già collegato e pronto, usiamo loadVideoById per transizione continua e fluida
+    if (ytPlayer && isPlayerReady && typeof ytPlayer.loadVideoById === 'function') {
+      try {
+        if (options.startSeconds) {
+          ytPlayer.loadVideoById({
+            videoId: track.youtubeId,
+            startSeconds: options.startSeconds
+          });
+        } else {
+          ytPlayer.loadVideoById(track.youtubeId);
+        }
+      } catch (err) {
+        console.warn('Fallback a iframe.src:', err);
+        mainVideoFrame.src = embedUrl;
+      }
+    } else {
+      mainVideoFrame.src = embedUrl;
+    }
 
     // Aggiornamento Dati Palcoscenico
     stageSongTitle.textContent = track.title;
@@ -164,7 +406,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     stageCatBadge.textContent = track.categoryLabel;
     stageYearBadge.textContent = track.year;
     stageVibeBadge.textContent = track.vibe;
-    nowPlayingStatus.textContent = `In riproduzione: ${track.title} – ${track.artist} (${track.year})`;
+
+    const remainingInQueue = shuffleQueue.length;
+    const totalCount = tracks.length;
+    const playedInCycle = totalCount - remainingInQueue;
+    const cycleInfo = isRandomLoopActive ? ` • [${playedInCycle}/${totalCount}]` : '';
+
+    nowPlayingStatus.textContent = `In riproduzione: ${track.title} – ${track.artist} (${track.year})${cycleInfo}`;
 
     if (openYtStageLink) {
       openYtStageLink.href = `https://www.youtube.com/watch?v=${track.youtubeId}`;
@@ -196,6 +444,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       showToast(`In riproduzione: ${track.title}`);
     }
 
+    updateSoundwave(true);
     if (window.lucide) lucide.createIcons();
   }
 
@@ -284,23 +533,72 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   if (prevTrackBtn) {
     prevTrackBtn.addEventListener('click', () => {
-      playTrackByIndex(currentTrackIndex - 1, { autoplay: true, notifyToast: true });
+      if (playbackHistory.length > 0) {
+        const prevIdx = playbackHistory.pop();
+        playTrackByIndex(prevIdx, { autoplay: true, notifyToast: true });
+      } else {
+        playTrackByIndex(currentTrackIndex - 1, { autoplay: true, notifyToast: true });
+      }
     });
   }
 
   if (nextTrackBtn) {
     nextTrackBtn.addEventListener('click', () => {
-      playTrackByIndex(currentTrackIndex + 1, { autoplay: true, notifyToast: true });
+      if (isRandomLoopActive) {
+        const nextIdx = getNextRandomTrackIndex();
+        playTrackByIndex(nextIdx, { autoplay: true, notifyToast: true });
+      } else {
+        playTrackByIndex(currentTrackIndex + 1, { autoplay: true, notifyToast: true });
+      }
     });
   }
 
   if (randomTrackBtn) {
     randomTrackBtn.addEventListener('click', () => {
-      let randIdx = Math.floor(Math.random() * tracks.length);
-      if (randIdx === currentTrackIndex) {
-        randIdx = (randIdx + 1) % tracks.length;
+      // Cliccando Casuale ci assicuriamo che il loop continuo sia attivo per proseguire da solo
+      if (!isRandomLoopActive) {
+        isRandomLoopActive = true;
+        localStorage.setItem(LOOP_RANDOM_STORAGE_KEY, 'true');
+        updateLoopUI();
       }
+      const randIdx = getNextRandomTrackIndex();
       playTrackByIndex(randIdx, { autoplay: true, scrollToPlayer: true, notifyToast: true });
+      showToast(`🎲 Brano casuale: ${tracks[randIdx].title}`);
+    });
+  }
+
+  function toggleRandomLoopMode() {
+    isRandomLoopActive = !isRandomLoopActive;
+    localStorage.setItem(LOOP_RANDOM_STORAGE_KEY, isRandomLoopActive ? 'true' : 'false');
+    updateLoopUI();
+
+    if (isRandomLoopActive) {
+      showToast('🔀 Loop Casuale Continuo ATTIVATO! La musica proseguirà da sola.');
+      if (!hasUserStartedPlayback) {
+        const nextIdx = getNextRandomTrackIndex();
+        playTrackByIndex(nextIdx, { autoplay: true, scrollToPlayer: true });
+      }
+    } else {
+      showToast('⏹️ Loop Casuale Continuo Disattivato.');
+    }
+  }
+
+  if (loopRandomToggleBtn) {
+    loopRandomToggleBtn.addEventListener('click', toggleRandomLoopMode);
+  }
+
+  if (loopStatusPill) {
+    loopStatusPill.addEventListener('click', toggleRandomLoopMode);
+  }
+
+  if (startContinuousLoopBtn) {
+    startContinuousLoopBtn.addEventListener('click', () => {
+      isRandomLoopActive = true;
+      localStorage.setItem(LOOP_RANDOM_STORAGE_KEY, 'true');
+      updateLoopUI();
+      const nextIdx = getNextRandomTrackIndex();
+      playTrackByIndex(nextIdx, { autoplay: true, scrollToPlayer: true });
+      showToast('✨ Loop Casuale Continuo Avviato! La musica proseguirà da sola all\'infinito.');
     });
   }
 
@@ -604,13 +902,28 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   }
 
-  // Keyboard Shortcuts (Space per play/pause iframe non è diretto, frecce per tracce)
+  // Keyboard Shortcuts (Frecce per tracce, L per toggle loop, S per shuffle)
   document.addEventListener('keydown', (e) => {
     if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
     if (e.key === 'ArrowRight') {
-      playTrackByIndex(currentTrackIndex + 1, { autoplay: true, notifyToast: true });
+      if (isRandomLoopActive) {
+        const nextIdx = getNextRandomTrackIndex();
+        playTrackByIndex(nextIdx, { autoplay: true, notifyToast: true });
+      } else {
+        playTrackByIndex(currentTrackIndex + 1, { autoplay: true, notifyToast: true });
+      }
     } else if (e.key === 'ArrowLeft') {
-      playTrackByIndex(currentTrackIndex - 1, { autoplay: true, notifyToast: true });
+      if (playbackHistory.length > 0) {
+        const prevIdx = playbackHistory.pop();
+        playTrackByIndex(prevIdx, { autoplay: true, notifyToast: true });
+      } else {
+        playTrackByIndex(currentTrackIndex - 1, { autoplay: true, notifyToast: true });
+      }
+    } else if (e.key === 'l' || e.key === 'L') {
+      toggleRandomLoopMode();
+    } else if (e.key === 's' || e.key === 'S') {
+      const nextIdx = getNextRandomTrackIndex();
+      playTrackByIndex(nextIdx, { autoplay: true, notifyToast: true });
     }
   });
 
@@ -878,6 +1191,10 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
     }
   });
+
+  // Inizializza coda casuale e stato UI del loop
+  refillShuffleQueue(currentTrackIndex);
+  updateLoopUI();
 
   // Aggiorna icone finali
   if (window.lucide) lucide.createIcons();

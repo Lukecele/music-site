@@ -433,6 +433,12 @@ body {
   50% { height: 100%; }
 }
 
+.soundwave-bars.paused span {
+  animation-play-state: paused;
+  height: 25% !important;
+  opacity: 0.45;
+}
+
 .status-text {
   font-size: 0.85rem;
   color: var(--text-sub);
@@ -442,6 +448,47 @@ body {
   white-space: nowrap;
   flex: 1 1 0;
   min-width: 0;
+}
+
+/* Loop Status Indicator Pill */
+.loop-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 9999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  flex-shrink: 0;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  outline: none;
+}
+
+.loop-status-pill:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--text-main);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.loop-status-pill.active {
+  background: rgba(16, 185, 129, 0.16);
+  border-color: rgba(52, 211, 153, 0.5);
+  color: #6ee7b7;
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.2);
+}
+
+.loop-status-pill i {
+  width: 12px;
+  height: 12px;
+}
+
+.loop-status-pill.active i {
+  color: #34d399;
 }
 
 /* Stage Details (Title, Artist, Metadata) */
@@ -581,7 +628,7 @@ body {
 /* Master Playback Controls Bar */
 .stage-controls-bar {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 0.65rem;
   margin-top: 0.5rem;
   width: 100%;
@@ -632,6 +679,35 @@ body {
   box-shadow: 0 0 20px rgba(56, 189, 248, 0.25);
 }
 
+/* Loop Random Mode Toggle Button */
+.btn-loop-random {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--border-subtle);
+  color: var(--text-sub);
+}
+
+.btn-loop-random.active {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.22) 0%, rgba(6, 182, 212, 0.22) 100%);
+  border-color: rgba(52, 211, 153, 0.6);
+  color: #a7f3d0;
+  box-shadow: 0 0 16px rgba(16, 185, 129, 0.28);
+}
+
+.btn-loop-random.active i {
+  color: #34d399;
+}
+
+.btn-loop-random:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.btn-loop-random.active:hover {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.35) 0%, rgba(6, 182, 212, 0.35) 100%);
+  border-color: #34d399;
+  box-shadow: 0 0 22px rgba(16, 185, 129, 0.4);
+}
+
 /* Actions Row (Copia Verso + YouTube Link) */
 .stage-actions-row {
   display: flex;
@@ -671,6 +747,23 @@ body {
   color: #fff;
   border-color: var(--accent-cyan);
   background: rgba(56, 189, 248, 0.08);
+}
+
+.btn-pill-highlight {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.18) 0%, rgba(56, 189, 248, 0.18) 100%);
+  border-color: rgba(52, 211, 153, 0.45);
+  color: #a7f3d0;
+}
+
+.btn-pill-highlight:hover {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.32) 0%, rgba(56, 189, 248, 0.32) 100%);
+  border-color: #34d399;
+  color: #fff;
+  box-shadow: 0 0 16px rgba(16, 185, 129, 0.3);
+}
+
+.btn-pill-highlight i {
+  color: #34d399;
 }
 
 /* ==========================================================================
@@ -2083,7 +2176,7 @@ body {
   }
 
   .stage-controls-bar {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 0.35rem;
   }
 
@@ -2212,7 +2305,8 @@ body {
   }
 
   .stage-controls-bar {
-    gap: 0.25rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.35rem;
   }
 
   .btn-ctrl {

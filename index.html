@@ -47,7 +47,7 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <!-- Stylesheet -->
-  <link rel="stylesheet" href="style.css?v=2.3" />
+  <link rel="stylesheet" href="style.css?v=2.4" />
 
   <!-- Schema.org JSON-LD Structured Data -->
   <script type="application/ld+json">
@@ -982,10 +982,14 @@
 
           <!-- Realtime Playing Status Bar -->
           <div class="player-status-bar">
-            <div class="soundwave-bars" aria-hidden="true">
+            <div class="soundwave-bars" id="stageSoundwave" aria-hidden="true">
               <span></span><span></span><span></span><span></span><span></span>
             </div>
             <span class="status-text" id="nowPlayingStatus">In riproduzione: Young and Beautiful – Lana Del Rey (2013)</span>
+            <button class="loop-status-pill active" id="loopStatusPill" type="button" title="Riproduzione continua casuale attiva: clicca per attivare/disattivare">
+              <i data-lucide="repeat"></i>
+              <span id="loopStatusPillText">Loop Continuo ON</span>
+            </button>
           </div>
 
           <!-- Active Track Metadata & Details -->
@@ -1028,9 +1032,13 @@
                 <i data-lucide="skip-back"></i>
                 <span>Precedente</span>
               </button>
-              <button class="btn-ctrl btn-random" id="randomTrackBtn" title="Riproduci un brano casuale">
+              <button class="btn-ctrl btn-random" id="randomTrackBtn" title="Riproduci un altro brano casuale">
                 <i data-lucide="shuffle"></i>
                 <span>Casuale</span>
+              </button>
+              <button class="btn-ctrl btn-loop-random active" id="loopRandomToggleBtn" type="button" title="Attiva/Disattiva Loop Casuale Continuo (riproduzione automatica infinita di tutte le canzoni)">
+                <i data-lucide="repeat"></i>
+                <span id="loopRandomBtnLabel">Loop: ON</span>
               </button>
               <button class="btn-ctrl btn-next" id="nextTrackBtn" title="Brano Successivo (Freccia Destra)">
                 <span>Successivo</span>
@@ -1040,6 +1048,10 @@
 
             <!-- Action links -->
             <div class="stage-actions-row">
+              <button class="btn-pill-action btn-pill-highlight" id="startContinuousLoopBtn" type="button" title="Avvia subito la riproduzione casuale continua di tutte le 52 canzoni">
+                <i data-lucide="play-circle"></i>
+                <span>Avvia Loop Casuale</span>
+              </button>
               <button class="btn-pill-action" id="copyStageQuoteBtn" title="Copia verso negli appunti">
                 <i data-lucide="copy"></i>
                 <span>Copia Verso</span>
@@ -3190,7 +3202,8 @@
   </footer>
 
   <!-- Scripts -->
-  <script src="script.js?v=2.3"></script>
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script src="script.js?v=2.4"></script>
 
   <!-- Cookie & Privacy Consent Banner -->
   <aside class="cookie-banner" id="cookieBanner" role="region" aria-label="Informativa Cookie e Privacy" style="display: none;">
